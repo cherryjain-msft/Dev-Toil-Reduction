@@ -41,6 +41,25 @@ make install
 make dev
 ```
 
+<details>
+<summary><strong>Without Make (Windows / no Make installed)</strong></summary>
+
+```powershell
+# Install dependencies
+cd api; npm install; cd ..
+cd frontend; npm install; cd ..
+
+# Start API (Terminal 1)
+cd api
+npm run dev
+
+# Start Frontend (Terminal 2)
+cd frontend
+npm run dev
+```
+
+</details>
+
 Verify:
 - API: http://localhost:3000/api-docs (Swagger UI)
 - Frontend: http://localhost:5173 (React app)
@@ -160,14 +179,14 @@ By the end of the workshop, you'll have created these reusable assets:
 
 ## Useful Commands
 
-```bash
-make install      # Install all dependencies
-make dev          # Start API + Frontend in dev mode
-make test         # Run all tests (API + Frontend)
-make build        # Build both projects
-make lint         # Lint both projects
-make clean        # Clean build artifacts
-```
+| Task | Make | Without Make |
+|------|------|-------------|
+| Install all deps | `make install` | `cd api && npm install && cd ../frontend && npm install` |
+| Dev mode (API + UI) | `make dev` | Run `npm run dev` in both `api/` and `frontend/` |
+| Run all tests | `make test` | `cd api && npm test && cd ../frontend && npm test` |
+| Build both projects | `make build` | `cd api && npm run build && cd ../frontend && npm run build` |
+| Lint both projects | `make lint` | `cd api && npm run lint && cd ../frontend && npm run lint` |
+| Clean artifacts | `make clean` | Delete `node_modules/` and `dist/` in `api/` and `frontend/` |
 
 ---
 

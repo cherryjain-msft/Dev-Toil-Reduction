@@ -29,17 +29,13 @@ You will create **3 GitHub issues simultaneously**, assign all of them to Copilo
 
 ### The Problem
 
-The API has **7 repositories** but only **1 has unit tests** (`suppliersRepo.test.ts`). Each untested repo is an independent task — perfect for parallel delegation.
+Your backlog has a mix of tasks — backend tests, frontend UI fixes, small features. Doing them one at a time means constant context switching. But these tasks are **independent** — perfect for parallel delegation.
 
-| Repository | Has Tests? | Status |
-|-----------|-----------|--------|
-| `suppliersRepo.ts` | ✅ Yes | Reference pattern |
-| `productsRepo.ts` | ❌ No | → Issue #1 |
-| `ordersRepo.ts` | ❌ No | → Issue #2 |
-| `branchesRepo.ts` | ❌ No | → Issue #3 |
-| `headquartersRepo.ts` | ❌ No | Optional bonus |
-| `deliveriesRepo.ts` | ❌ No | Optional bonus |
-| `orderDetailsRepo.ts` | ❌ No | Optional bonus |
+| Task | Type | Status |
+|------|------|--------|
+| Unit tests for `productsRepo.ts` | Backend Testing | → Issue #1 |
+| Unit tests for `ordersRepo.ts` | Backend Testing | → Issue #2 |
+| Custom 404 "Lost Cat" page | Frontend UI | → Issue #3 |
 
 ---
 
@@ -111,36 +107,39 @@ For each method:
 - [ ] Test file follows `suppliersRepo.test.ts` structure exactly
 ```
 
-### Step 3: Create Issue #3 — Branches Repo Tests
+### Step 3: Create Issue #3 — Custom 404 Page
 
-**Title:** `Add unit tests for branchesRepo.ts`
+**Title:** `Add a custom 404 "Lost Cat" page`
 
 **Body:**
 
 ```markdown
 ## Summary
 
-Add comprehensive unit tests for `api/src/repositories/branchesRepo.ts`.
+Add a fun, on-brand 404 page so users who navigate to an invalid route see a friendly "Lost Cat" message instead of a blank screen.
 
 ## Implementation
 
-- Create `api/src/repositories/branchesRepo.test.ts`
-- Follow the exact pattern in `api/src/repositories/suppliersRepo.test.ts`
-- Use mock database with `vi.fn()` — do NOT use real database
-- Test all methods available in the repository
+- Create `frontend/src/components/NotFound.tsx`
+- Add a catch-all `<Route path="*">` in `frontend/src/App.tsx`
+- Follow existing component patterns (Tailwind CSS, dark mode support via `useTheme`)
 
-## Test Cases Required
+## Design Requirements
 
-For each method:
-1. ✅ Happy path — valid input returns expected output
-2. ✅ Empty/not found — returns empty array or null
-3. ✅ Error handling — database errors are propagated via `handleDatabaseError`
+- Large centered "404" heading
+- Fun subheading like "This cat wandered off..." or "Looks like this page used all 9 lives"
+- A cat-themed emoji or ASCII art (🐱 or text art)
+- A "Back to Home" button linking to `/`
+- Must support dark mode (`dark:` Tailwind classes)
+- Responsive layout (looks good on mobile and desktop)
 
 ## Acceptance Criteria
 
-- [ ] `npm test` passes with all new tests
-- [ ] No real database connections — all tests use mocks
-- [ ] Test file follows `suppliersRepo.test.ts` structure exactly
+- [ ] Navigating to `/some-random-path` shows the 404 page
+- [ ] "Back to Home" button navigates to `/`
+- [ ] Dark mode works correctly
+- [ ] Matches the app's visual style (Tailwind, same color palette)
+- [ ] `npm run build` succeeds with no errors
 ```
 
 ---
@@ -165,7 +164,7 @@ For **each** of the 3 issues:
 You should see 3 sessions running in parallel:
 - Session for productsRepo tests
 - Session for ordersRepo tests
-- Session for branchesRepo tests
+- Session for 404 page
 
 ---
 
@@ -180,14 +179,15 @@ In Agent HQ, each session shows:
 
 ### Step 7: Compare approaches
 
-While waiting, note how each session independently:
-1. Reads `suppliersRepo.test.ts` as the reference pattern
-2. Reads the target repository file
-3. Creates a test file with the same structure
-4. Runs `npm test` to verify
-5. Opens a PR
+While waiting, note how each session independently works on **completely different parts** of the codebase:
 
-**All 3 happen simultaneously** — this is the power of parallel delegation.
+| Session | What It Does |
+|---------|-------------|
+| productsRepo tests | Reads `suppliersRepo.test.ts` as pattern → creates test file → runs `npm test` |
+| ordersRepo tests | Same pattern, different repo → creates test file → runs `npm test` |
+| 404 page | Reads existing components for style → creates `NotFound.tsx` → updates `App.tsx` routes → runs `npm run build` |
+
+**All 3 happen simultaneously** — backend and frontend, tests and features, all at once.
 
 ---
 
@@ -204,30 +204,36 @@ When the first PR appears:
    - Happy path + edge cases
 3. Check that tests actually test the right methods (`findBySupplierId`, `findByName` are Products-specific)
 
-### Step 9: Review PR #2 and #3
+### Step 9: Review PR #2 — Orders Repo Tests
 
-Repeat for Orders and Branches. Each should:
-- Follow the same pattern
-- Test the methods specific to that repository
-- Use proper mock setup
-- Pass all tests
+Same review as PR #1 — verify it follows `suppliersRepo.test.ts` structure for orders-specific methods.
 
-### Step 10: Merge all 3 PRs
+### Step 10: Review PR #3 — 404 Page 🐱
+
+This one is the fun one:
+1. Open the PR and check `NotFound.tsx`
+2. Verify it has a cat-themed message and a "Back to Home" button
+3. Check that `App.tsx` has a `<Route path="*">` catch-all
+4. Pull the branch and navigate to `http://localhost:5173/does-not-exist` — enjoy the 404 page!
+
+### Step 11: Merge all 3 PRs
 
 Once reviewed:
 1. Merge PR #1
 2. Merge PR #2
 3. Merge PR #3
 
-### Step 11: Verify everything works together
+### Step 12: Verify everything works together
 
 ```bash
 git pull origin main
-cd api
-npm test
+make test
+make build
 ```
 
-All tests (original + 3 new test files) should pass together.
+- All tests (original + 2 new test files) should pass
+- Frontend builds with the new 404 page
+- Navigate to `http://localhost:5173/xyz` to see the 404 page live
 
 ---
 
@@ -238,8 +244,8 @@ All tests (original + 3 new test files) should pass together.
 | Issues created | ___ / 3 |
 | Parallel sessions running | ___ / 3 |
 | Time from assignment to all 3 PRs | ___ min |
-| PRs that passed tests on first try | ___ / 3 |
-| Total lines of test code generated | ___ |
+| PRs that passed on first try | ___ / 3 |
+| Total lines of code generated (tests + UI) | ___ |
 | Lines you wrote manually | 0 |
 
 ---
@@ -250,14 +256,14 @@ All tests (original + 3 new test files) should pass together.
 
 ### What Made This Work
 
-- **Independent tasks**: Each test file has no dependencies on the others
-- **Clear reference pattern**: `suppliersRepo.test.ts` gave Copilot a template to follow
+- **Mixed task types**: Backend tests + frontend UI — Copilot handles both in parallel
+- **Independent tasks**: No dependencies between the 3 issues
+- **Clear reference patterns**: `suppliersRepo.test.ts` for tests, existing components for UI
 - **Well-structured issues**: Specific requirements = consistent output across all 3
-- **Existing Skill** (`.github/skills/api-endpoint/SKILL.md`): Testing patterns documented
 - **Agent HQ**: Dashboard to monitor all sessions without context switching
 
 ---
 
 ## Bonus Challenge (Optional, 15 min)
 
-Create issues for the remaining 3 untested repositories (`headquartersRepo`, `deliveriesRepo`, `orderDetailsRepo`) and assign all to Copilot simultaneously. Can you get 6 parallel sessions running?
+Create issues for additional untested repositories (`branchesRepo`, `headquartersRepo`, `deliveriesRepo`) and assign all to Copilot simultaneously. Can you get 5+ parallel sessions running?
