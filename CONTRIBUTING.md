@@ -1,55 +1,48 @@
-# Contributing to OctoCAT Supply Demo
+# Contributing to OctoCAT Supply Workshop
 
-Thank you for your interest in contributing to the OctoCAT Supply Chain Management demo! This demo is designed to showcase GitHub Platform capabilities including GitHub Copilot, GitHub Advanced Security (GHAS), GitHub Actions, and other enterprise features.
+Thank you for your interest in contributing to the OctoCAT Supply Chain Management Workshop! This project is a hands-on workshop environment for learning GitHub Copilot features.
 
-## 🎯 About This Demo
+## 🎯 About This Workshop
 
-**Important:** This is a demonstration application, not a production system. The primary objective is to effectively showcase GitHub Platform capabilities to customers and prospects. All contributions should keep this goal in mind.
-
-The main repository for this demo is: **[octodemo-framework/demo_octocat_supply](https://github.com/octodemo-framework/demo_octocat_supply)**
+**Important:** This is a workshop application designed to teach GitHub Copilot capabilities through hands-on labs. The primary objective is to provide a clean, realistic codebase for workshop participants to practice AI-assisted development. All contributions should keep this goal in mind.
 
 ## 🤝 How to Contribute
 
 We welcome contributions in several areas:
 
-### 1. Demo Application Code (TypeScript/React)
+### 1. Application Code (TypeScript/React)
 
 Contributions to the actual application code (frontend and API) should:
 
 - Be realistic and representative of typical enterprise applications
-- Support existing or new demo scenarios
+- Support existing or new workshop lab scenarios
 - Follow existing patterns and coding standards
 - Include tests where appropriate
 
-### 2. Demo Scripts and Walkthroughs
+### 2. Workshop Labs & Instructions
 
-Demo narrative scripts live in the [`demo/walkthroughs/`](./demo/walkthroughs/) directory:
+Workshop lab instructions live in the [`workshop/labs/`](./workshop/labs/) directory:
 
-- **[copilot.md](./demo/walkthroughs/copilot.md)** - GitHub Copilot demonstrations
-- **[ghas.md](./demo/walkthroughs/ghas.md)** - GitHub Advanced Security demonstrations
-- **[actions.md](./demo/walkthroughs/actions.md)** - GitHub Actions and CI/CD
-- **[governance.md](./demo/walkthroughs/governance.md)** - Repository governance features
-- **[issues-and-projects.md](./demo/walkthroughs/issues-and-projects.md)** - Issues and project management
+- **[lab-01-coding-agent](./workshop/labs/lab-01-coding-agent/README.md)** — Coding Agent: Zero to PR
+- **[lab-02-agent-mode](./workshop/labs/lab-02-agent-mode/README.md)** — Agent Mode: Feature Build
+- **[lab-03-code-review](./workshop/labs/lab-03-code-review/README.md)** — Code Review: AI First-Pass Review
+- *(and more — see [workshop/README.md](./workshop/README.md) for the full list)*
 
-When contributing to demo scripts:
+When contributing to workshop labs:
 
-- Keep scenarios realistic and relevant to enterprise customers
+- Keep scenarios realistic and relevant to enterprise developers
 - Ensure steps are clear and reproducible
 - Update related documentation if you change application behavior
-- Test your walkthrough end-to-end before submitting
+- Test your lab walkthrough end-to-end before submitting
 
-### 3. Demo Configuration (Octodemo Framework)
-
-The `.octodemo/` directory contains configuration for the Octodemo Framework deployment system. Changes here should align with the [Demo Creator Guide](https://github.com/octodemo-framework/docs/blob/main/demo-creators/README.md).
-
-### 4. Documentation
+### 3. Documentation
 
 Documentation improvements are always welcome:
 
 - Architecture documentation in [`docs/`](./docs/)
 - Setup and configuration instructions
 - Troubleshooting guides
-- Demo best practices
+- Workshop best practices
 
 ## 🚀 Getting Started
 
@@ -63,16 +56,11 @@ Documentation improvements are always welcome:
 
 ### Initial Setup
 
-1. **Clone the repository** (or your fork if you're an external contributor):
+1. **Clone the repository**:
 
    ```bash
-   # For octodemo-framework organization members:
-   git clone https://github.com/octodemo-framework/demo_octocat_supply.git
-   cd demo_octocat_supply
-   
-   # For external contributors (fork first, then):
-   git clone https://github.com/YOUR-USERNAME/demo_octocat_supply.git
-   cd demo_octocat_supply
+   git clone <your-repo-url>
+   cd <repo-name>
    ```
 
 2. **Install dependencies:**
@@ -215,36 +203,22 @@ feat: Add product filtering to catalog page
 - Update API endpoint to support filtering
 ```
 
-## 🌐 Access and Alternative Contribution Paths
+## 🌐 Contribution Paths
 
-### For Octodemo Framework Organization Members
+### For Repository Contributors
 
-If you have access to the `octodemo-framework` organization:
-
-1. Create a branch in the main repository
+1. Create a branch in the repository
 2. Make your changes following the guidelines above
 3. Submit a pull request for review
 
-### For External Contributors (Without Octodemo Access)
+### For Workshop Participants
 
-We recognize that some deployments of this demo exist in environments where contributors may not have access to the `octodemo-framework` GitHub organization. If this applies to you:
+If you're a workshop participant and want to share improvements:
 
-1. **Fork the repository** if you have access to this instance
+1. **Fork the repository** to your account
 2. **Document your changes thoroughly** in your pull request description
 3. **Include testing evidence** (screenshots, test output, etc.)
-4. **Contact demo maintainers** if you need help submitting changes:
-   - Open an issue describing your proposed contribution
-   - Provide a detailed description and any code samples
-   - Maintainers can help integrate your contribution
-
-### Contributing to Your Local Demo Instance
-
-If you're working in a closed environment:
-
-1. Make changes to your local instance following these guidelines
-2. Document your changes thoroughly
-3. Share your improvements with your organization's demo maintainers
-4. Consider whether the changes would benefit the broader demo community
+4. **Open an issue** describing your proposed improvement
 
 ## 🔍 Review Process
 
@@ -252,27 +226,27 @@ All contributions go through a review process:
 
 1. **Automated checks** - Linting, tests, and builds must pass
 2. **Code review** - At least one maintainer will review your changes
-3. **Demo validation** - Changes that affect demo scenarios will be tested
+3. **Workshop validation** - Changes that affect workshop labs will be tested
 4. **Documentation review** - Ensure docs are updated for behavioral changes
 
 ## ❓ Questions or Issues?
 
-- **General questions**: Open a [GitHub Discussion](https://github.com/octodemo-framework/demo_octocat_supply/discussions)
-- **Bug reports**: Open an [Issue](https://github.com/octodemo-framework/demo_octocat_supply/issues) with details
-- **Feature proposals**: Open an [Issue](https://github.com/octodemo-framework/demo_octocat_supply/issues) describing the demo scenario
+- **General questions**: Open a GitHub Discussion in this repository
+- **Bug reports**: Open an Issue with details
+- **Feature proposals**: Open an Issue describing the workshop scenario
 
 ## 📚 Additional Resources
 
 - [Main README](./README.md) - Project overview and setup
-- [Demo Walkthroughs](./demo/walkthroughs/README.md) - Complete demo scenarios
+- [Workshop Labs](./workshop/README.md) - Complete workshop labs
+- [Facilitator Guide](./workshop/FACILITATOR-GUIDE.md) - Workshop facilitation guide
 - [Architecture Documentation](./docs/architecture.md) - System design details
-- [Demo Creator Guide](https://github.com/octodemo-framework/docs/blob/main/demo-creators/README.md) - Octodemo Framework documentation
 - [Custom Instructions](./.github/copilot-instructions.md) - Copilot configuration for this repo
 
 ## 🙏 Thank You
 
-Your contributions help make this demo better for everyone using it to showcase GitHub's capabilities. We appreciate your time and effort!
+Your contributions help make this workshop better for everyone learning GitHub Copilot. We appreciate your time and effort!
 
 ---
 
-**Remember:** This is a demo application designed to showcase GitHub Platform features. Keep the demo experience and effectiveness as your primary consideration when contributing.
+**Remember:** This is a workshop application designed to teach GitHub Copilot features. Keep the learning experience and lab effectiveness as your primary consideration when contributing.
