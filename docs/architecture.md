@@ -25,7 +25,7 @@ The system is a modern supply chain management application built using TypeScrip
 - Tailwind CSS for UI styling
 
 ### DevOps Integration
-- Docker/Docker Compose for containerization
+
 - Optional Bicep + GitHub Actions plan for Azure deployment
 
 ## ERD

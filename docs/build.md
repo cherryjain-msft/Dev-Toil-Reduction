@@ -9,7 +9,7 @@ This guide provides instructions for building, running, and testing the OctoCAT 
 - Node.js (version 18 or higher)
 - npm (latest version recommended)
 
-- Docker/Podman (optional, for containerization)
+
 
 ## Installation
 
@@ -185,14 +185,3 @@ cd api && npm run lint
 ### Port Configuration
 
 The API runs on port 3000 by default, and the Frontend runs on port 5137. When running in a Codespace environment, ensure that the API port visibility is set to `public` to avoid CORS errors when the Frontend tries to communicate with the API.
-
-For Docker, the sample compose maps API to 3000 and frontend to 3001.
-
-### Docker Deployment
-
-The project includes Dockerfiles for both API and Frontend components and a docker-compose.yml file for easy containerized deployment:
-
-```bash
-# Build and start using Docker Compose
-docker-compose up --build
-```

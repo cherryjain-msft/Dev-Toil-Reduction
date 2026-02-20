@@ -6,7 +6,7 @@
 | **Feature** | MCP (Model Context Protocol) Servers in Copilot |
 | **Time** | 45–60 minutes |
 | **Difficulty** | Intermediate |
-| **Prerequisites** | VS Code with Copilot, Docker Desktop running (for GitHub MCP), app running locally |
+| **Prerequisites** | VS Code with Copilot, app running locally |
 
 ## Toil Scorecard
 
@@ -34,7 +34,7 @@ Open `.vscode/mcp.json` in your editor. This repo already has 4 MCP servers conf
 | Server | What It Provides | How It Runs |
 |--------|-----------------|-------------|
 | `playwright` | Browser automation, E2E testing | `npx @playwright/mcp@latest` |
-| `github` | GitHub API (issues, PRs, repos) | Docker container |
+| `github` | GitHub API (issues, PRs, repos) | `npx @modelcontextprotocol/server-github` |
 | `github-remote` | Extended GitHub API (actions, security, copilot) | HTTP endpoint |
 | `Azure MCP Server` | Azure resource management | `npx @azure/mcp@latest` |
 
@@ -51,9 +51,9 @@ Open `.vscode/mcp.json` in your editor. This repo already has 4 MCP servers conf
 
 ## Part B — GitHub MCP Server (15 min)
 
-### Step 3: Start Docker Desktop
+### Step 3: Verify GitHub MCP is running
 
-Ensure Docker Desktop is running (the GitHub MCP server runs as a Docker container).
+The GitHub MCP server runs via npx (configured in `.vscode/mcp.json`). It will prompt for your GitHub PAT on first use.
 
 ### Step 4: Query GitHub Issues from Chat
 

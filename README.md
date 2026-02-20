@@ -1,15 +1,74 @@
-# 🚀 OctoCAT Supply: Advanced GitHub Copilot Workshop
+# Reducing Developer Toil — GitHub Copilot Workshop
 
 ![OctoCAT Supply](./frontend/public/hero.png)
 
-Welcome to the OctoCAT Supply Workshop — a hands-on environment for learning GitHub Copilot features including Coding Agent, Agent Mode, Code Review, MCP Servers, Custom Instructions, Skills, and Custom Agents.
+A hands-on workshop where developers tackle real developer toils using the latest GitHub Copilot features — Coding Agent, Agent Mode, Code Review, MCP Servers, Custom Instructions, Skills, and Custom Agents.
 
-> [!NOTE]
-> For workshop labs and instructions, see the [Workshop README](./workshop/README.md).
+> **Start here** → [Workshop Labs & Instructions](./workshop/README.md)
 
-## 🏗️ Architecture
+---
 
-The application is built using modern TypeScript with a clean separation of concerns:
+## Prerequisites
+
+| Requirement | Details |
+|------------|---------|
+| **GitHub account** | With Copilot Enterprise or Copilot Business license |
+| **VS Code** | Latest version with [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) + [Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat) extensions |
+| **Node.js** | v24+ (`node --version`) |
+| **npm** | v10+ (`npm --version`) |
+| **Git** | Configured with your GitHub credentials |
+| **GitHub PAT** | Required for MCP server labs ([create one](https://github.com/settings/tokens)) |
+
+---
+
+## Quick Start
+
+### 1. Clone
+
+```bash
+git clone <your-repo-url>
+cd <repo-name>
+```
+
+### 2. Install & run
+
+**With Make:**
+
+```bash
+make install   # Install all dependencies
+make dev       # Start API + Frontend
+```
+
+**Without Make:**
+
+```powershell
+# Install
+cd api; npm install; cd ..
+cd frontend; npm install; cd ..
+
+# Start API (Terminal 1)
+cd api; npm run dev
+
+# Start Frontend (Terminal 2)
+cd frontend; npm run dev
+```
+
+### 3. Verify
+
+| Service | URL | What you should see |
+|---------|-----|-------------------|
+| API | http://localhost:3000/api-docs | Swagger UI |
+| Frontend | http://localhost:5173 | React app with products, orders, etc. |
+
+---
+
+## The Application
+
+**OctoCAT Supply** is a supply chain management system built with a modern TypeScript stack. You'll use it throughout every lab.
+
+```
+Frontend (React + Vite + Tailwind)  →  API (Express.js + TypeScript)  →  SQLite
+```
 
 ```mermaid
 erDiagram
@@ -22,136 +81,42 @@ erDiagram
     Supplier ||--o{ Delivery: provides
 ```
 
-### Tech Stack
+---
 
-- **Frontend**: React 18+, TypeScript, Tailwind CSS, Vite
+## Useful Commands
 
-- **Backend**: Express.js, TypeScript, SQLite, OpenAPI/Swagger
-
-- **Data**: SQLite (file db at `api/data/app.db`; in-memory for tests)
-- **DevOps**: Docker
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-
-
-- Node.js 18+ and npm
-
-- Make
-
-### Quick Start
-
-#### Option 1: Simple Start Scripts (Windows)
-
-Run one of these commands from the root directory:
-
-```powershell
-# PowerShell
-.\start.ps1
-
-`
-
-These scripts automatically install dependencies and start both servers!
-
-#### Option 2: Using Make
-
-1. Clone this repository
-
-2. Install dependencies:
-
-   ```bash
-   make install
-   ```
-
-3. Start the development environment:
-
-   ```bash
-   make dev
-   ```
-
-This will start both the API server (on port 3000) and the frontend development server (on port 5173).
-
-### Available Make Commands
-
-View all available commands:
-
-```bash
-make help
-```
-
-Key commands:
-
-- `make dev` - Start both API and frontend development servers
-- `make dev-api` - Start only the API server
-- `make dev-frontend` - Start only the frontend server
-- `make build` - Build both API and frontend for production
-- `make db-init` - Initialize database schema
-- `make db-seed` - Seed database with sample data
-- `make test` - Run all tests
-- `make clean` - Clean build artifacts and dependencies
-
-### Database Management
-
-Initialize the database explicitly (migrations + seed):
-
-```bash
-make db-init
-```
-
-Seed data only:
-
-```bash
-make db-seed
-```
-
-
-Or use npm scripts directly in the API directory:
-
-```bash
-cd api && npm run db:migrate  # Run migrations only
-cd api && npm run db:seed     # Seed data only
-```
-
-
-### VS Code Integration
-
-You can also use VS Code tasks and launch configurations:
-
-- `Cmd/Ctrl + Shift + P` -> `Run Task` -> `Build All`
-- Use the Debug panel to run `Start API & Frontend`
-
-## 🛠️ MCP Server Setup (Optional)
-
-To showcase extended capabilities:
-
-1. Install Docker/Podman for the GitHub MCP server
-2. Use VS Code command palette:
-   - `MCP: List servers` -> `playwright` -> `Start server`
-   - `MCP: List servers` -> `github` -> `Start server`
-3. Configure with a GitHub PAT (required for GitHub MCP server)
-
-## 📚 Documentation
-
-- [Workshop Labs](./workshop/README.md)
-- [Facilitator Guide](./workshop/FACILITATOR-GUIDE.md)
-- [Detailed Architecture](./docs/architecture.md)
-- [SQLite Integration](./docs/sqlite-integration.md)
-
-Database defaults and env vars:
-
-- DB file: `api/data/app.db` (override with `DB_FILE=/absolute/path/to/file.db`)
-- Enable WAL: `DB_ENABLE_WAL=true` (default)
-- Foreign keys: `DB_FOREIGN_KEYS=true` (default)
-
-## 🎓 Pro Tips for Workshop Participants
-
-- Practice the labs before the workshop to familiarize yourself with the app
-- Remember Copilot is non-deterministic - results may vary
-- Mix and match lab scenarios based on your team's goals
-- Keep your GitHub PAT handy for MCP server labs
+| Task | Make | Without Make |
+|------|------|-------------|
+| Install deps | `make install` | `cd api && npm install && cd ../frontend && npm install` |
+| Start dev servers | `make dev` | Start API + Frontend in separate terminals (see above) |
+| Run all tests | `make test` | `cd api && npm test && cd ../frontend && npm test` |
+| Build for production | `make build` | `cd api && npm run build && cd ../frontend && npm run build` |
+| Reset database | `make db-init` | `cd api && npm run db:migrate && npm run db:seed` |
+| See all commands | `make help` | — |
 
 ---
 
-*This entire project, including the hero image, was created using AI and GitHub Copilot! Even this README was generated by Copilot using the project documentation.* 🤖✨
+## Workshop Content
+
+| Resource | Description |
+|----------|-------------|
+| [Workshop Labs](./workshop/README.md) | 10 hands-on labs — start here |
+| [Facilitator Guide](./workshop/FACILITATOR-GUIDE.md) | Delivery tips, timing, troubleshooting |
+| [Architecture](./docs/architecture.md) | Detailed system design |
+| [SQLite Integration](./docs/sqlite-integration.md) | Database patterns and config |
+
+---
+
+## Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| `make` not found | Use the "Without Make" commands above, or install Make |
+| Port 3000 / 5173 in use | `npx kill-port 3000 5173` |
+| npm install fails | Delete `node_modules` in `api/` and `frontend/`, re-run install |
+| Copilot not responding | Check the Copilot extension is signed in and enabled |
+| MCP servers not loading | Restart VS Code, check `.vscode/mcp.json` config |
+
+---
+
+*Built with GitHub Copilot.*

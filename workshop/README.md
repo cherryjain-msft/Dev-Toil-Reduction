@@ -14,7 +14,7 @@ A hands-on workshop where enterprise developers tackle real developer toils usin
 | VS Code | Latest version with [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) and [Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat) extensions |
 | Node.js | v24+ (`node --version`) |
 | npm | v10+ (`npm --version`) |
-| Docker Desktop | Required for GitHub MCP server (Lab 04) |
+
 | Git | Configured with your GitHub credentials |
 
 ### Org Settings Required
@@ -29,38 +29,38 @@ A hands-on workshop where enterprise developers tackle real developer toils usin
 
 ## Setup (5 min)
 
+### 1. Clone
+
 ```bash
-# Clone the workshop repo
 git clone <your-repo-url>
 cd <repo-name>
-
-# Install dependencies
-make install
-
-# Start the application
-make dev
 ```
 
-<details>
-<summary><strong>Without Make (Windows / no Make installed)</strong></summary>
+### 2. Install & run
+
+**With Make:**
+
+```bash
+make install   # Install all dependencies
+make dev       # Start API + Frontend
+```
+
+**Without Make:**
 
 ```powershell
-# Install dependencies
+# Install
 cd api; npm install; cd ..
 cd frontend; npm install; cd ..
 
 # Start API (Terminal 1)
-cd api
-npm run dev
+cd api; npm run dev
 
 # Start Frontend (Terminal 2)
-cd frontend
-npm run dev
+cd frontend; npm run dev
 ```
 
-</details>
+### 3. Verify
 
-Verify:
 - API: http://localhost:3000/api-docs (Swagger UI)
 - Frontend: http://localhost:5173 (React app)
 
@@ -162,6 +162,6 @@ By the end of the workshop, you'll have created these reusable assets:
 | Port 5173 in use | `npx kill-port 5173` |
 | npm install fails | Delete `node_modules` in api/ and frontend/, re-run `make install` |
 | Copilot not responding | Check Copilot extension is signed in and enabled |
-| MCP servers not loading | Restart VS Code, check Docker is running |
+| MCP servers not loading | Restart VS Code, check `.vscode/mcp.json` config |
 | Coding Agent not available | Verify org policy enables Coding Agent |
 | CodeQL not running | Enable GitHub Advanced Security in repo settings |

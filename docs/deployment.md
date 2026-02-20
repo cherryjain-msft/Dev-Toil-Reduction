@@ -103,14 +103,13 @@ DB_TIMEOUT=30000
 - Build both API and Frontend
 - Run unit tests
 - Lint code
-- Build Docker images but don't push them
 
 ### Deployment (deploy.yml)
 - Build
   - Triggered on PR
   - Build and run tests
   - 2 jobs that run in parallel: one for API and one for Frontend
-     - Build and push Docker image to GHCR - use the short SHA of the commit to version the image
+     - Build and run tests for API and Frontend
 - Staging Job
   - requires both build jobs
   - Deploy Bicep templates with staging parameters to Staging environment
@@ -146,7 +145,7 @@ DB_TIMEOUT=30000
    - for any push, execute the CI build
    - for PRs and pushes to `main`:
      - build and test the code
-     - create the docker images using the short SHA for the version tag
+     - create deployment artifacts using the short SHA for the version tag
      - use AZ login to get the credentials for the AZCR from the AZURE_ACR_NAME and AZURE_RESOURCE_GROUP_PROD vars
      - push the images to the AZCR
      - deploy to Staging first using the Staging environment
@@ -162,7 +161,6 @@ DB_TIMEOUT=30000
 ### Backups and Recovery
 - Since SQLite is file-based, implement periodic backups of the DB file location
 - On Azure Web Apps, use WebJobs or scheduled workflows to copy `/home/site/data/app.db` to blob storage
-- For Docker, copy the volume or bind-mount target to backup storage
 
 ## 3. IMPORTANT! Final Checks
 - Ensure that the bicep files don't have any unused declarations/varialbes

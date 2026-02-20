@@ -185,18 +185,17 @@ and index.ts files. Generate:
 ```
 @doc-generator Generate a Getting Started guide at docs/getting-started.md.
 
-Read the Makefile, package.json files, and docker-compose.yml.
+Read the Makefile and package.json files.
 Include:
 
-1. Prerequisites (Node.js version, npm, Docker — with exact versions from package.json)
+1. Prerequisites (Node.js version, npm — with exact versions from package.json)
 2. Clone and install steps (exact commands)
 3. Database setup (what make db-seed does)
 4. Running in development mode (what make dev does)
 5. Running tests (all three: unit api, unit frontend, E2E)
 6. Building for production
-7. Docker setup
-8. Common problems and solutions
-9. Available make commands (read from Makefile)
+7. Common problems and solutions
+8. Available make commands (read from Makefile)
 ```
 
 ---

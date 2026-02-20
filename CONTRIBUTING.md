@@ -51,7 +51,7 @@ Documentation improvements are always welcome:
 - **Node.js** 18 or higher
 - **npm** (comes with Node.js)
 - **Git**
-- **(Optional)** Docker for containerized development
+
 - **(Optional)** GitHub Personal Access Token (PAT) for MCP server demos
 
 ### Initial Setup

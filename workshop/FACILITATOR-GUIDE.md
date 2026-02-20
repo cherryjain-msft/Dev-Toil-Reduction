@@ -14,7 +14,7 @@
 - [ ] Enable **GitHub Advanced Security** on the repo (for Lab 07)
 - [ ] Enable **CodeQL** default setup on the repo (for Lab 07)
 - [ ] Verify `.vscode/mcp.json` servers are accessible:
-  - GitHub MCP (Docker) — requires Docker Desktop
+  - GitHub MCP — requires npx + GitHub PAT
   - Playwright MCP — requires npx
   - GitHub Remote MCP — requires GitHub auth
   - Azure MCP — optional, only if Azure resources exist
@@ -28,7 +28,7 @@
   - GitHub Copilot extension (latest)
   - GitHub Copilot Chat extension (latest)
 - [ ] Node.js v24+ installed
-- [ ] Docker Desktop installed and running (for MCP labs)
+
 - [ ] Git configured with GitHub credentials
 
 ### Environment Verification
@@ -132,7 +132,7 @@ Labs: 01, 03, 06, 07, 10
 
 **Key message:** "MCP breaks Copilot out of the IDE — it can query GitHub, run browsers, call APIs."
 
-- Docker must be running for GitHub MCP
+- GitHub MCP runs via npx — no extra setup needed
 - This lab has the most potential for "wow" moments (visual testing, cross-repo queries)
 - The project-status agent combines multiple MCP sources — show data composition
 
@@ -197,7 +197,7 @@ Labs: 01, 03, 06, 07, 10
 | Copilot Chat shows "Connecting..." | Restart VS Code, check internet, verify license |
 | Coding Agent doesn't pick up issue | Check org policy, verify `assignees: copilot` in issue |
 | Agent Mode doesn't edit files | Accept the workspace trust prompt, re-open chat |
-| MCP server fails to connect | Restart VS Code, verify Docker running, check `mcp.json` |
+| MCP server fails to connect | Restart VS Code, check GitHub PAT, verify `mcp.json` |
 | CodeQL scan not running | Enable default setup in repo Settings → Security → Code scanning |
 | `make dev` fails | Check Node.js version (v24+), run `make clean && make install` |
 | Tests fail after lab changes | Expected if bugs were injected — `git stash` to revert |
