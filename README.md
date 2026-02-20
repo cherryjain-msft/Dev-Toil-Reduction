@@ -1,11 +1,11 @@
-# 🚀 OctoCAT Supply: The Ultimate GitHub Copilot Demo v3.2.1
+# 🚀 OctoCAT Supply: Advanced GitHub Copilot Workshop
 
 ![OctoCAT Supply](./frontend/public/hero.png)
 
-Welcome to the OctoCAT Supply Website - your go-to demo for showcasing the incredible capabilities of GitHub Copilot, GHAS, and the power of AI-assisted development!
+Welcome to the OctoCAT Supply Workshop — a hands-on environment for learning GitHub Copilot features including Coding Agent, Agent Mode, Code Review, MCP Servers, Custom Instructions, Skills, and Custom Agents.
 
 > [!NOTE]
-> For a walkthrough of all demos, check out the [Demo Walkthroughs](./demo/walkthroughs/README.md).
+> For workshop labs and instructions, see the [Workshop README](./workshop/README.md).
 
 ## 🏗️ Architecture
 
@@ -134,9 +134,10 @@ To showcase extended capabilities:
 
 ## 📚 Documentation
 
+- [Workshop Labs](./workshop/README.md)
+- [Facilitator Guide](./workshop/FACILITATOR-GUIDE.md)
 - [Detailed Architecture](./docs/architecture.md)
 - [SQLite Integration](./docs/sqlite-integration.md)
-- [Complete Demo Script](./demo/walkthroughs/README.md)
 
 Database defaults and env vars:
 
@@ -144,12 +145,12 @@ Database defaults and env vars:
 - Enable WAL: `DB_ENABLE_WAL=true` (default)
 - Foreign keys: `DB_FOREIGN_KEYS=true` (default)
 
-## 🎓 Pro Tips for Solution Engineers
+## 🎓 Pro Tips for Workshop Participants
 
-- Practice the demos before customer presentations
-- Remember Copilot is non-deterministic - be ready to adapt
-- Mix and match demo scenarios based on your audience
-- Keep your GitHub PAT handy for MCP demos
+- Practice the labs before the workshop to familiarize yourself with the app
+- Remember Copilot is non-deterministic - results may vary
+- Mix and match lab scenarios based on your team's goals
+- Keep your GitHub PAT handy for MCP server labs
 
 ---
 
