@@ -3,6 +3,7 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 import deliveryRoutes from './routes/delivery';
+import deliveryVehicleRoutes from './routes/deliveryVehicle';
 import orderDetailDeliveryRoutes from './routes/orderDetailDelivery';
 import productRoutes from './routes/product';
 import orderDetailRoutes from './routes/orderDetail';
@@ -75,6 +76,7 @@ app.get('/api-docs.json', (req, res) => {
 app.use(express.json());
 
 app.use('/api/deliveries', deliveryRoutes);
+app.use('/api/delivery-vehicles', deliveryVehicleRoutes);
 app.use('/api/order-detail-deliveries', orderDetailDeliveryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/order-details', orderDetailRoutes);
