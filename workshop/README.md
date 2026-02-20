@@ -106,14 +106,18 @@ Each lab is **standalone** (no dependencies between labs). Times show **core exe
 
 ## Toil Scorecard
 
-Each lab includes a **Toil Scorecard** — fill it in as you go:
+Each lab includes a **Toil Scorecard** — estimate your before/after as you go:
 
-| Metric | Without Copilot | With Copilot | Savings |
-|--------|----------------|--------------|---------|
+**Toil: _______________** (e.g., "Lab 06 — Parallel delegation", "Lab 09 — GitHub Skills scaffolding")
+
+| Metric | Without Copilot (est.) | With Copilot (est.) | Savings |
+|--------|----------------------|-------------------|---------|
 | Time to complete | ___ min | ___ min | ___% |
 | Lines coded manually | ___ | ___ | ___% |
 | Context switches | ___ | ___ | ___% |
 | Errors/rework cycles | ___ | ___ | ___% |
+
+> All numbers are **estimates** — that's fine. The goal is to build intuition for where Copilot saves the most time on your team, not to measure with a stopwatch.
 
 **At the end of the workshop**, calculate your total:
 - Total hours saved across all labs
