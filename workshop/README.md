@@ -47,7 +47,7 @@ Verify:
 
 ---
 
-## Labs — Pick 5–6 for a Half-Day, 8–10 for Full-Day
+## Labs — Pick 5–6 for a Half-Day, All 10 for Full-Day
 
 Each lab is **standalone** (no dependencies between labs) and takes **45–60 minutes**.
 
@@ -57,7 +57,7 @@ Each lab is **standalone** (no dependencies between labs) and takes **45–60 mi
 |-----|-------|-------------|----------------|------|
 | [01](labs/lab-01-coding-agent/README.md) | **Zero to PR** | Translating issues to code | Coding Agent | 45 min |
 | [02](labs/lab-02-agent-mode/README.md) | **Feature Build** | Scaffolding components | Agent Mode | 50 min |
-| [11](labs/lab-11-github-skills/README.md) | **Teach Copilot Your Patterns** | Repeating entity patterns | Copilot Skills | 50 min |
+| [09](labs/lab-09-github-skills/README.md) | **Teach Copilot Your Patterns** | Repeating entity patterns | Copilot Skills | 50 min |
 
 ### Code Hygiene & Standards
 
@@ -65,8 +65,8 @@ Each lab is **standalone** (no dependencies between labs) and takes **45–60 mi
 |-----|-------|-------------|----------------|------|
 | [03](labs/lab-03-code-review/README.md) | **AI First-Pass Review** | PR review bottleneck | Code Review + Custom Agent | 50 min |
 | [05](labs/lab-05-custom-instructions/README.md) | **Team Standards as Code** | Manual standards enforcement | Custom Instructions | 50 min |
-| [10](labs/lab-10-documentation/README.md) | **Self-Documenting Code** | Writing documentation | Agent Mode + Doc Agent | 50 min |
-| [12](labs/lab-12-custom-agents/README.md) | **Build Your Own Agent** | Specialized workflows | Custom Agents + Chatmodes | 55 min |
+| [08](labs/lab-08-documentation/README.md) | **Self-Documenting Code** | Writing documentation | Agent Mode + Doc Agent | 50 min |
+| [10](labs/lab-10-custom-agents/README.md) | **Build Your Own Agent** | Specialized workflows | Custom Agents + Chatmodes | 55 min |
 
 ### Testing & Quality
 
@@ -74,14 +74,12 @@ Each lab is **standalone** (no dependencies between labs) and takes **45–60 mi
 |-----|-------|-------------|----------------|------|
 | [06](labs/lab-06-parallel-delegation/README.md) | **Agent HQ: Batch It** | Sequential small tasks | Parallel Agents + Agent HQ | 50 min |
 | [07](labs/lab-07-security-autofix/README.md) | **Zero-Day to Zero-Effort** | Fixing vulnerabilities | Security Autofix + Agent | 50 min |
-| [09](labs/lab-09-debugging/README.md) | **Root Cause in 60 Seconds** | Debugging failures | Debug Agent + Self-Healing | 50 min |
 
-### Infrastructure & DevOps
+### Tools & Integration
 
 | Lab | Title | Toil Solved | Copilot Feature | Time |
 |-----|-------|-------------|----------------|------|
 | [04](labs/lab-04-mcp-servers/README.md) | **Connect Your Tools** | Context switching | MCP Servers | 50 min |
-| [08](labs/lab-08-cicd-generation/README.md) | **YAML-Free Pipelines** | Writing CI/CD YAML | CI/CD Agent | 50 min |
 
 ---
 
@@ -113,16 +111,16 @@ Each lab is **standalone** (no dependencies between labs) and takes **45–60 mi
 | 4:30 | **Lab 06** — Parallel Delegation (50 min) |
 | 5:20 | **Lab 07** — Security Autofix (50 min) |
 | 6:10 | Break (10 min) |
-| 6:20 | **Lab 11** or **Lab 12** — Skills or Custom Agents (50 min) |
+| 6:20 | **Lab 09** or **Lab 10** — Skills or Custom Agents (50 min) |
 | 7:10 | ROI Scorecard review + Take-home actions (20 min) |
 
 ### Security Focus
 
-Labs 01, 03, 05, 07, 08, 09
+Labs 01, 03, 05, 07
 
 ### Platform Team Focus
 
-Labs 04, 05, 06, 07, 08, 12
+Labs 04, 05, 06, 07, 10
 
 ---
 
@@ -152,13 +150,11 @@ By the end of the workshop, you'll have created these reusable assets:
 | Code Reviewer | Agent | Lab 03 |
 | Project Status | Agent | Lab 04 |
 | Security Reviewer | Agent | Lab 07 |
-| CI/CD Specialist | Agent | Lab 08 |
-| Debug Specialist | Agent | Lab 09 |
-| Doc Generator | Agent | Lab 10 |
-| Accessibility Auditor | Agent | Lab 12 |
-| Performance Reviewer | Agent | Lab 12 |
-| Frontend Component | Skill | Lab 11 |
-| Code Quality Coach | Chatmode | Lab 12 |
+| Doc Generator | Agent | Lab 08 |
+| Accessibility Auditor | Agent | Lab 10 |
+| Performance Reviewer | Agent | Lab 10 |
+| Frontend Component | Skill | Lab 09 |
+| Code Quality Coach | Chatmode | Lab 10 |
 
 ---
 

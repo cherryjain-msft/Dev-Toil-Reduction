@@ -1,4 +1,4 @@
-# Lab 11 — GitHub Copilot Skills: "Teach Copilot Your Patterns"
+# Lab 09 — GitHub Copilot Skills: "Teach Copilot Your Patterns"
 
 | | |
 |---|---|

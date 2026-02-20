@@ -1,4 +1,4 @@
-# Lab 12 — Custom Agents & Chatmodes: "Build Your Own Agent"
+# Lab 10 — Custom Agents & Chatmodes: "Build Your Own Agent"
 
 | | |
 |---|---|
@@ -394,10 +394,8 @@ Watch the chatmode score the code and suggest specific improvements.
 | Agent | Code Reviewer | Lab 03 | `.github/agents/code-reviewer.agent.md` |
 | Agent | Project Status | Lab 04 | `.github/agents/project-status.agent.md` |
 | Agent | Security Reviewer | Lab 07 | `.github/agents/security-reviewer.agent.md` |
-| Agent | CI/CD Specialist | Lab 08 | `.github/agents/cicd-specialist.agent.md` |
-| Agent | Debug Specialist | Lab 09 | `.github/agents/debug-specialist.agent.md` |
-| Agent | Doc Generator | Lab 10 | `.github/agents/doc-generator.agent.md` |
-| Agent | Accessibility Auditor | Lab 12 | `.github/agents/accessibility-auditor.agent.md` |
-| Agent | Performance Reviewer | Lab 12 | `.github/agents/performance-reviewer.agent.md` |
-| Chatmode | Code Quality Coach | Lab 12 | `.github/chatmodes/CodeQualityCoach.chatmode.md` |
-| Skill | Frontend Component | Lab 11 | `.github/skills/frontend-component/SKILL.md` |
+| Agent | Doc Generator | Lab 08 | `.github/agents/doc-generator.agent.md` |
+| Agent | Accessibility Auditor | Lab 10 | `.github/agents/accessibility-auditor.agent.md` |
+| Agent | Performance Reviewer | Lab 10 | `.github/agents/performance-reviewer.agent.md` |
+| Chatmode | Code Quality Coach | Lab 10 | `.github/chatmodes/CodeQualityCoach.chatmode.md` |
+| Skill | Frontend Component | Lab 09 | `.github/skills/frontend-component/SKILL.md` |

@@ -1,4 +1,4 @@
-# Lab 10 — Documentation: "Self-Documenting Code"
+# Lab 08 — Documentation: "Self-Documenting Code"
 
 | | |
 |---|---|
@@ -205,7 +205,7 @@ Include:
 
 ### Step 9: Create a reusable prompt for future doc updates
 
-Create `workshop/labs/lab-10-documentation/update-all-docs.prompt.md`:
+Create `workshop/labs/lab-08-documentation/update-all-docs.prompt.md`:
 
 ```markdown
 ---

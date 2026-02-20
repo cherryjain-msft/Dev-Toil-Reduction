@@ -84,20 +84,20 @@ make test       # All existing tests pass
 | 4:30–5:20 | **Lab 06: Parallel Delegation** | Scaling with Agent HQ |
 | 5:20–6:10 | **Lab 07: Security Autofix** | Security automation |
 | 6:10–6:20 | **Break** | |
-| 6:20–7:10 | **Lab 11 or 12** | Participant choice |
+| 6:20–7:10 | **Lab 09 or 10** | Participant choice |
 | 7:10–7:30 | **ROI Scorecard & Takeaways** | Action items for teams |
 
 ### Security Team Focus (4 hours)
 
-Labs: 01, 03, 05, 07, 08, 09
+Labs: 01, 03, 05, 07
 
 ### Platform/DevOps Focus (4 hours)
 
-Labs: 04, 05, 06, 07, 08, 12
+Labs: 04, 05, 06, 07, 10
 
 ### Quality Engineering Focus (4 hours)
 
-Labs: 01, 03, 06, 07, 09, 12
+Labs: 01, 03, 06, 07, 10
 
 ---
 
@@ -162,23 +162,7 @@ Labs: 01, 03, 06, 07, 09, 12
 - The security-reviewer agent is preventive (before merge), CodeQL is detective (after push)
 - Ask: "What's your current vulnerability remediation time? Days? Weeks?"
 
-### Lab 08 — CI/CD Generation: "YAML-Free Pipelines"
-
-**Key message:** "Describe what you want in English, get production-ready YAML."
-
-- Show existing workflows first — participants see the quality bar
-- The CI/CD agent has project conventions baked in (Node 24, npm workspaces, etc.)
-- Generated workflows should follow existing patterns — not generic templates
-
-### Lab 09 — Debugging: "Root Cause in 60 Seconds"
-
-**Key message:** "Paste the error, get the fix — with explanation."
-
-- Three bug types: runtime error, test failure, build error
-- The self-healing DevOps workflow (`auto-analyze-failures.yml`) is the "wow" moment
-- Ask: "How long does debugging typically take? What if it was always < 1 minute?"
-
-### Lab 10 — Documentation: "Self-Documenting Code"
+### Lab 08 — Documentation: "Self-Documenting Code"
 
 **Key message:** "Documentation generated from code is always accurate — and always up to date."
 
@@ -186,7 +170,7 @@ Labs: 01, 03, 06, 07, 09, 12
 - The prompt file (`update-all-docs.prompt.md`) is reusable — run it on every release
 - Compare: manual docs (hours, often stale) vs. generated docs (minutes, always current)
 
-### Lab 11 — Copilot Skills: "Teach Copilot Your Patterns"
+### Lab 09 — Copilot Skills: "Teach Copilot Your Patterns"
 
 **Key message:** "Skills are reference architectures for Copilot — show it your patterns, get consistent output."
 
@@ -194,14 +178,14 @@ Labs: 01, 03, 06, 07, 09, 12
 - The new `frontend-component` skill mirrors your team's React patterns
 - Show the with-skill vs. without-skill comparison — consistency is the win
 
-### Lab 12 — Custom Agents & Chatmodes: "Build Your Own Agent"
+### Lab 10 — Custom Agents & Chatmodes: "Build Your Own Agent"
 
 **Key message:** "Agents encode expertise. Chatmodes personalize interaction. Together they multiply your team."
 
 - Start with the 5 existing agents — participants see real examples
 - The accessibility auditor has WCAG 2.1 AA checklist — domain expertise in a file
 - Chatmodes are different: always-on personality vs. on-demand agent invocation
-- End with the summary table — 8 agents + 1 chatmode + 1 skill created across the workshop
+- End with the summary table — 6 agents + 1 chatmode + 1 skill created across the workshop
 
 ---
 
