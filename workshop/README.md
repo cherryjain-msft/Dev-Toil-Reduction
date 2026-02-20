@@ -68,37 +68,37 @@ Verify:
 
 ## Labs — Pick 5–6 for a Half-Day, All 10 for Full-Day
 
-Each lab is **standalone** (no dependencies between labs) and takes **45–60 minutes**.
+Each lab is **standalone** (no dependencies between labs). Times show **core exercises → all exercises**.
 
 ### Backlog Cleanup & Boilerplate
 
 | Lab | Title | Toil Solved | Copilot Feature | Time |
 |-----|-------|-------------|----------------|------|
-| [01](labs/lab-01-coding-agent/README.md) | **Zero to PR** | Translating issues to code | Coding Agent | 45 min |
-| [02](labs/lab-02-agent-mode/README.md) | **Feature Build** | Scaffolding components | Agent Mode | 50 min |
-| [09](labs/lab-09-github-skills/README.md) | **Teach Copilot Your Patterns** | Repeating entity patterns | Copilot Skills | 50 min |
+| [01](labs/lab-01-coding-agent/README.md) | **Zero to PR** | Translating issues to code | Coding Agent | 15–50 min |
+| [02](labs/lab-02-agent-mode/README.md) | **Feature Build** | Scaffolding components | Agent Mode | 30–55 min |
+| [09](labs/lab-09-github-skills/README.md) | **Teach Copilot Your Patterns** | Repeating entity patterns | Copilot Skills | 30–55 min |
 
 ### Code Hygiene & Standards
 
 | Lab | Title | Toil Solved | Copilot Feature | Time |
 |-----|-------|-------------|----------------|------|
-| [03](labs/lab-03-code-review/README.md) | **AI First-Pass Review** | PR review bottleneck | Code Review + Custom Agent | 50 min |
-| [05](labs/lab-05-custom-instructions/README.md) | **Team Standards as Code** | Manual standards enforcement | Custom Instructions | 50 min |
-| [08](labs/lab-08-documentation/README.md) | **Self-Documenting Code** | Writing documentation | Agent Mode + Doc Agent | 50 min |
-| [10](labs/lab-10-custom-agents/README.md) | **Build Your Own Agent** | Specialized workflows | Custom Agents + Chatmodes | 55 min |
+| [03](labs/lab-03-code-review/README.md) | **AI First-Pass Review** | PR review bottleneck | Code Review + Custom Agent | 20–55 min |
+| [05](labs/lab-05-custom-instructions/README.md) | **Team Standards as Code** | Manual standards enforcement | Custom Instructions | 25–55 min |
+| [08](labs/lab-08-documentation/README.md) | **Self-Documenting Code** | Writing documentation | Agent Mode + Doc Agent | 20–55 min |
+| [10](labs/lab-10-custom-agents/README.md) | **Build Your Own Agent** | Specialized workflows | Custom Agents + Chatmodes | 15–50 min |
 
 ### Testing & Quality
 
 | Lab | Title | Toil Solved | Copilot Feature | Time |
 |-----|-------|-------------|----------------|------|
-| [06](labs/lab-06-parallel-delegation/README.md) | **Agent HQ: Batch It** | Sequential small tasks | Parallel Agents + Agent HQ | 50 min |
-| [07](labs/lab-07-security-autofix/README.md) | **Zero-Day to Zero-Effort** | Fixing vulnerabilities | Security Autofix + Agent | 50 min |
+| [06](labs/lab-06-parallel-delegation/README.md) | **Agent HQ: Batch It** | Sequential small tasks | Parallel Agents + Agent HQ | 15–50 min |
+| [07](labs/lab-07-security-autofix/README.md) | **Zero-Day to Zero-Effort** | Fixing vulnerabilities | Security Autofix + Agent | 20–50 min |
 
 ### Tools & Integration
 
 | Lab | Title | Toil Solved | Copilot Feature | Time |
 |-----|-------|-------------|----------------|------|
-| [04](labs/lab-04-mcp-servers/README.md) | **Connect Your Tools** | Context switching | MCP Servers | 50 min |
+| [04](labs/lab-04-mcp-servers/README.md) | **Connect Your Tools** | Context switching | MCP Servers | 20–60 min |
 
 ---
 
