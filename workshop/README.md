@@ -1,4 +1,4 @@
-# Reducing Developer Toil — Advanced GitHub Copilot Workshop
+# Reducing Developer Toil — GitHub Copilot Workshop
 
 > **Turn hours of repetitive work into minutes of AI-assisted flow.**
 
@@ -66,7 +66,9 @@ Verify:
 
 ---
 
-## Labs — Pick 5–6 for a Half-Day, All 10 for Full-Day
+## Labs  
+
+> **Pick the toils that hurt your team most, or crush them all.**
 
 Each lab is **standalone** (no dependencies between labs). Times show **core exercises → all exercises**.
 
@@ -85,7 +87,7 @@ Each lab is **standalone** (no dependencies between labs). Times show **core exe
 | [03](labs/lab-03-code-review/README.md) | **AI First-Pass Review** | PR review bottleneck | Code Review + Custom Agent | 20–55 min |
 | [05](labs/lab-05-custom-instructions/README.md) | **Team Standards as Code** | Manual standards enforcement | Custom Instructions | 25–55 min |
 | [08](labs/lab-08-documentation/README.md) | **Self-Documenting Code** | Writing documentation | Agent Mode + Doc Agent | 20–55 min |
-| [10](labs/lab-10-custom-agents/README.md) | **Build Your Own Agent** | Specialized workflows | Custom Agents + Chatmodes | 15–50 min |
+| [10](labs/lab-10-custom-agents/README.md) | **Build Your Own Agent** | Specialized workflows | Custom Agents | 15–50 min |
 
 ### Testing & Quality
 
@@ -99,47 +101,6 @@ Each lab is **standalone** (no dependencies between labs). Times show **core exe
 | Lab | Title | Toil Solved | Copilot Feature | Time |
 |-----|-------|-------------|----------------|------|
 | [04](labs/lab-04-mcp-servers/README.md) | **Connect Your Tools** | Context switching | MCP Servers | 20–60 min |
-
----
-
-## Suggested Agendas
-
-### Half-Day (4 hours) — Productivity Focus
-
-| Time | Activity |
-|------|----------|
-| 0:00 | Welcome + Toil Scorecard intro (15 min) |
-| 0:15 | **Lab 01** — Coding Agent: Zero to PR (45 min) |
-| 1:00 | **Lab 02** — Agent Mode: Feature Build (50 min) |
-| 1:50 | Break (10 min) |
-| 2:00 | **Lab 05** — Custom Instructions (50 min) |
-| 2:50 | **Lab 06** — Parallel Delegation (50 min) |
-| 3:40 | ROI Scorecard review + Q&A (20 min) |
-
-### Full-Day (7 hours) — Comprehensive
-
-| Time | Activity |
-|------|----------|
-| 0:00 | Welcome + Toil Scorecard intro (15 min) |
-| 0:15 | **Lab 01** — Coding Agent (45 min) |
-| 1:00 | **Lab 02** — Agent Mode (50 min) |
-| 1:50 | Break (15 min) |
-| 2:05 | **Lab 03** — Code Review (50 min) |
-| 2:55 | **Lab 05** — Custom Instructions (50 min) |
-| 3:45 | Lunch (45 min) |
-| 4:30 | **Lab 06** — Parallel Delegation (50 min) |
-| 5:20 | **Lab 07** — Security Autofix (50 min) |
-| 6:10 | Break (10 min) |
-| 6:20 | **Lab 09** or **Lab 10** — Skills or Custom Agents (50 min) |
-| 7:10 | ROI Scorecard review + Take-home actions (20 min) |
-
-### Security Focus
-
-Labs 01, 03, 05, 07
-
-### Platform Team Focus
-
-Labs 04, 05, 06, 07, 10
 
 ---
 
@@ -171,9 +132,8 @@ By the end of the workshop, you'll have created these reusable assets:
 | Security Reviewer | Agent | Lab 07 |
 | Doc Generator | Agent | Lab 08 |
 | Accessibility Auditor | Agent | Lab 10 |
-| Performance Reviewer | Agent | Lab 10 |
+| Full-Stack Feature | Agent | Lab 10 |
 | Frontend Component | Skill | Lab 09 |
-| Code Quality Coach | Chatmode | Lab 10 |
 
 ---
 

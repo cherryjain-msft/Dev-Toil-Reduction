@@ -178,14 +178,15 @@ Labs: 01, 03, 06, 07, 10
 - The new `frontend-component` skill mirrors your team's React patterns
 - Show the with-skill vs. without-skill comparison — consistency is the win
 
-### Lab 10 — Custom Agents & Chatmodes: "Build Your Own Agent"
+### Lab 10 — Custom Agents: "Build Your Own Agent"
 
-**Key message:** "Agents encode expertise. Chatmodes personalize interaction. Together they multiply your team."
+**Key message:** "Agents encode expertise — from deep specialists to full-stack orchestrators."
 
 - Start with the 5 existing agents — participants see real examples
-- The accessibility auditor has WCAG 2.1 AA checklist — domain expertise in a file
-- Chatmodes are different: always-on personality vs. on-demand agent invocation
-- End with the summary table — 6 agents + 1 chatmode + 1 skill created across the workshop
+- The accessibility auditor shows **deep specialist** pattern — WCAG checklist as domain expertise
+- The full-stack feature agent is the **wow moment** — one prompt generates 8+ files across every layer
+- Let participants try their own entity ("Shipment", "Inventory") to see it's not a trick
+- End with the summary table — 6 agents + 1 skill created across the workshop
 
 ---
 

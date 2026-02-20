@@ -226,7 +226,6 @@ This is a TypeScript monorepo with two main applications and a workshop layer:
 - `.github/instructions/` — Path-scoped instructions (api, frontend, database, testing)
 - `.github/agents/` — Custom Copilot agents (API Specialist, TDD, Code Reviewer)
 - `.github/skills/` — Copilot Skills (api-endpoint pattern)
-- `.github/chatmodes/` — Custom chat modes (Model Selection, Prompt Refiner)
 - `.github/prompts/` — Reusable prompt files
 
 ### Key Patterns

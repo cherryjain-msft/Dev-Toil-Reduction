@@ -1,9 +1,9 @@
-# Lab 10 — Custom Agents & Chatmodes: "Build Your Own Agent"
+# Lab 10 — Custom Agents: "Build Your Own Agent"
 
 | | |
 |---|---|
 | **Toil** | Repeating specialized workflows manually |
-| **Feature** | Custom Copilot Agents (`.agent.md`), Chatmodes (`.chatmode.md`) |
+| **Feature** | Custom Copilot Agents (`.agent.md`) |
 | **Time** | 45–60 minutes |
 | **Difficulty** | Intermediate |
 | **Prerequisites** | VS Code with Copilot Chat |
@@ -21,7 +21,7 @@
 
 ## What You'll Do
 
-You will explore the 5 existing agents and 2 chatmodes in this repo, understand the anatomy of each, and then **build 2 new agents and 1 new chatmode** — giving you a complete toolkit for your team's specialized workflows.
+You will explore the 5 existing agents in this repo, understand the anatomy of each, and then **build 2 new agents** — giving you a complete toolkit for your team's specialized workflows.
 
 ---
 
@@ -75,40 +75,9 @@ Watch the API Specialist agent:
 
 ---
 
-## Part B — Explore Existing Chatmodes (5 min)
+## Part B — Build an Accessibility Auditor Agent (15 min)
 
-### Step 4: Explore the 2 existing chatmodes
-
-Open files in `.github/chatmodes/`:
-
-| Chatmode | File | Purpose |
-|----------|------|---------|
-| Model Selection | `ModelSelection.chatmode.md` | Compare AI models, recommend best for use case |
-| Refine Prompt | `RefinePrompt.chatmode.md` | Transform vague prompts into precise ones |
-
-**Key difference between agents and chatmodes:**
-
-| Aspect | Agent (`.agent.md`) | Chatmode (`.chatmode.md`) |
-|--------|--------------------|-----------------------|
-| Invoked with | `@agent-name` in chat | Switch mode at top of chat |
-| Purpose | Specialized task execution | Modify how the chat behaves |
-| Tools | Has own tool set | Uses default tools |
-| Scope | Single-task invocation | Entire conversation |
-| Best for | "Do this specific thing" | "Think in this way for everything" |
-
-### Step 5: Test a chatmode
-
-1. Open Copilot Chat
-2. Click the mode dropdown at the top
-3. Select **Refine Prompt**
-4. Type a vague prompt: `make the app faster`
-5. Watch it refine your prompt into a specific, actionable request
-
----
-
-## Part C — Build an Accessibility Auditor Agent (15 min)
-
-### Step 6: Create the accessibility auditor
+### Step 4: Create the accessibility auditor
 
 Create `.github/agents/accessibility-auditor.agent.md`:
 
@@ -198,7 +167,7 @@ When asked to fix issues, apply minimal changes:
 - Add `alt` text to images
 ```
 
-### Step 7: Test the accessibility auditor
+### Step 5: Test the accessibility auditor
 
 ```
 @accessibility-auditor Audit the Products page component at 
@@ -206,7 +175,7 @@ frontend/src/components/entity/product/Products.tsx.
 Report all WCAG 2.1 AA violations.
 ```
 
-### Step 8: Fix the issues
+### Step 6: Fix the issues
 
 ```
 @accessibility-auditor Fix all critical and warning accessibility 
@@ -215,148 +184,132 @@ issues you found in Products.tsx.
 
 ---
 
-## Part D — Build a Performance Reviewer Agent (10 min)
+## Part C — Build a Full-Stack Feature Agent (15 min)
 
-### Step 9: Create the performance reviewer
+### Step 7: Create the full-stack feature agent
 
-Create `.github/agents/performance-reviewer.agent.md`:
+This is the big one. A single prompt will generate an **entire feature** — migration, model, repository, routes, Swagger docs, React component, and tests — all following the repo's existing patterns.
+
+Create `.github/agents/full-stack-feature.agent.md`:
 
 ```markdown
 ---
-name: 'Performance Reviewer'
-description: 'Review code for performance issues: N+1 queries, missing indexes, unnecessary re-renders, large bundle imports. Use before deploying or when the app feels slow.'
-tools: ['codebase', 'search', 'editFiles', 'runCommands']
+name: 'Full-Stack Feature'
+description: 'Generate an entire feature end-to-end from a single description. Creates SQL migration, TypeScript model, repository, Express routes, Swagger docs, React components, and test stubs — all following existing repo patterns.'
+tools: ['codebase', 'search', 'editFiles', 'runCommands', 'problems']
 ---
 
-# Performance Reviewer Agent
+# Full-Stack Feature Agent
 
-You are a performance optimization expert for the OctoCAT Supply Chain Management System.
+You are an expert full-stack developer for the OctoCAT Supply Chain Management System. Given a feature description, you generate every layer of the stack in one shot.
 
-## API Performance Checks
+## Architecture You Follow
 
-### Database (SQLite)
-- [ ] No N+1 query patterns (loop with individual queries)
-- [ ] JOINs used instead of multiple separate queries
-- [ ] Indexes exist for columns in WHERE/ORDER BY/JOIN clauses
-- [ ] LIMIT used for potentially large result sets
-- [ ] No `SELECT *` when only few columns needed
+```
+SQL Migration → TypeScript Model → Repository → Express Routes → Swagger Docs
+                                                                      ↕
+React Component ← API Client Hook ← Types ← Swagger Spec
+```
 
-### Routes
-- [ ] No unnecessary `await` in loops (use `Promise.all` for parallel)
-- [ ] Response data shaped for the consumer (no over-fetching)
-- [ ] Pagination implemented for list endpoints
+## Existing Patterns to Match
 
-## Frontend Performance Checks
+**Before generating anything**, read these reference files to match the repo's style:
+- Model: `api/src/models/product.ts`
+- Repository: `api/src/repositories/productsRepo.ts`
+- Routes: `api/src/routes/product.ts`
+- Migration: `database/migrations/001_init.sql`
+- React component: `frontend/src/components/entity/product/Products.tsx`
+- API client: `frontend/src/api/`
 
-### React
-- [ ] No unnecessary re-renders (useMemo/useCallback where appropriate)
-- [ ] React Query used with proper cache keys (not useEffect + useState)
-- [ ] Lists have `key` prop (not array index for dynamic lists)
-- [ ] Large lists use windowing/virtualization
-- [ ] Images lazy-loaded for below-fold content
+## Generation Workflow
 
-### Bundle
-- [ ] No large libraries imported for small features
-- [ ] Dynamic imports (`lazy()`) for route-level code splitting
-- [ ] No duplicate dependencies in package.json
-- [ ] Tree-shakeable imports (`import { x } from` not `import * as`)
+When the user describes a feature, follow this exact sequence:
+
+### 1. Clarify & Plan
+- State assumptions about the entity and its relationships
+- List the files you will create or modify
+- Get confirmation before proceeding
+
+### 2. Database Layer
+- Create `database/migrations/NNN_{entity}.sql` with CREATE TABLE, indexes, constraints
+- Add seed data in `database/seed/NNN_{entity}.sql` (5-10 realistic rows)
+
+### 3. API Layer
+- Create `api/src/models/{entity}.ts` — TypeScript interface matching the schema
+- Create `api/src/repositories/{entity}Repo.ts` — CRUD methods using parameterized SQL
+- Create `api/src/routes/{entity}.ts` — Express routes (GET all, GET by ID, POST, PUT, DELETE)
+- Register routes in `api/src/index.ts`
+- Add Swagger documentation to `api/api-swagger.json`
+
+### 4. Frontend Layer
+- Create `frontend/src/components/entity/{entity}/{Entity}s.tsx` — list view with table
+- Create `frontend/src/components/entity/{entity}/{Entity}Detail.tsx` — detail/edit view
+- Add API client functions in `frontend/src/api/`
+- Add navigation link in `frontend/src/components/Navigation.tsx`
+
+### 5. Tests
+- Create `api/src/routes/{entity}.test.ts` — route tests with happy path + error cases
+
+## Rules
+- Always use **parameterized SQL** (never string concatenation)
+- Always use the existing **custom error classes** (NotFoundError, ValidationError, ConflictError)
+- Always match **existing code style** — read reference files first
+- Always include **proper HTTP status codes** (201 for create, 404 for not found, 422 for validation)
+- Keep React components consistent with **existing Tailwind patterns**
+- Use **React Query** for data fetching (match existing hooks pattern)
 
 ## Output Format
 
 ```
-⚡ PERFORMANCE REVIEW
+🚀 FULL-STACK FEATURE: {Entity Name}
 
-📊 Impact: HIGH | MEDIUM | LOW
+📋 PLAN
+  Entity: {name}
+  Fields: {field list}
+  Relationships: {FK references}
+  Files to create: {count}
 
-🔴 N+1 QUERY: {file:line}
-   {code snippet showing the loop}
-   Fix: Batch query with IN clause or JOIN
+📁 FILES GENERATED
+  ✅ database/migrations/NNN_{entity}.sql
+  ✅ database/seed/NNN_{entity}.sql
+  ✅ api/src/models/{entity}.ts
+  ✅ api/src/repositories/{entity}Repo.ts
+  ✅ api/src/routes/{entity}.ts
+  ✅ api/src/routes/{entity}.test.ts
+  ✅ frontend/src/components/entity/{entity}/{Entity}s.tsx
+  ✅ frontend/src/components/entity/{entity}/{Entity}Detail.tsx
+  ✅ api/api-swagger.json (updated)
+  ✅ api/src/index.ts (updated)
 
-🟡 MISSING INDEX: Table `{table}`, Column `{column}`
-   Queries filtering on this column: {count}
-   Fix: CREATE INDEX idx_{table}_{column} ON {table}({column})
-
-🟢 OPTIMIZED: {what's already good}
-
-━━ SUMMARY ━━━━━━━━━━━━━━━━
-Critical: X issues
-Warnings: Y issues
-Estimated impact: {description}
+🧪 NEXT STEPS
+  1. Run: npm run build --workspace=api
+  2. Run: npm test --workspace=api
+  3. Verify at: http://localhost:3001/api/{entity}
 ```
 ```
 
-### Step 10: Test the performance reviewer
+### Step 8: Test the full-stack feature agent (the wow moment)
+
+This is where it gets impressive. Try this single prompt:
 
 ```
-@performance-reviewer Review all repository files in api/src/repositories/ 
-for performance issues. Check for N+1 queries, missing indexes, and 
-inefficient SQL patterns.
+@full-stack-feature Add a "Warehouse" entity to the supply chain system.
+Fields: warehouseId (PK), name, location, capacity (integer), 
+managerId (text), isActive (boolean), createdAt, updatedAt.
+It should belong to a Branch (foreign key to branches table).
 ```
 
----
+Watch the agent generate **8+ files** from a single sentence:
+- SQL migration with table, indexes, and foreign key
+- Seed data with realistic warehouse entries
+- TypeScript model interface
+- Repository with full CRUD
+- Express routes with error handling
+- Route tests
+- React list and detail components
+- Swagger documentation
 
-## Part E — Build a Code Quality Chatmode (10 min)
-
-### Step 11: Create a chatmode
-
-Create `.github/chatmodes/CodeQualityCoach.chatmode.md`:
-
-```markdown
----
-description: "Guides you to write higher-quality code. Every response evaluates code quality and suggests improvements — without changing functionality."
----
-
-# Code Quality Coach Mode
-
-In this mode, you act as a senior developer doing a pair programming session focused on code quality.
-
-## Behavior
-
-For every question or code shared:
-
-1. **Assess** the code quality on 5 dimensions (1-5 scale):
-   - Readability: Is it clear what the code does?
-   - Maintainability: Can it be changed safely?
-   - Testability: Can it be unit tested easily?
-   - Security: Are there vulnerabilities?
-   - Performance: Are there inefficiencies?
-
-2. **Show the scores** as a quick visual:
-   ```
-   📊 Quality Score
-   Readability:    ████░ 4/5
-   Maintainability: ███░░ 3/5
-   Testability:    ████░ 4/5
-   Security:       ██░░░ 2/5
-   Performance:    ████░ 4/5
-   Overall:        ███▒░ 3.4/5
-   ```
-
-3. **Suggest** the top 3 improvements ranked by impact
-
-4. **Show before/after** code for the top suggestion
-
-## Rules
-
-- Never change functionality — quality improvements only
-- Explain the "why" for every suggestion
-- Reference SOLID principles, Clean Code, or OWASP when applicable
-- Be encouraging — acknowledge what's already good
-- When code is already high quality, say so and suggest only minor nits
-```
-
-### Step 12: Test the chatmode
-
-1. Switch chat mode to **Code Quality Coach**
-2. Paste or reference a code file:
-
-```
-Review this file: api/src/repositories/productsRepo.ts
-
-What's its quality score and what should I improve?
-```
-
-Watch the chatmode score the code and suggest specific improvements.
+> **Try another one!** Ask for a "Shipment" or "Inventory" entity and see the same pattern repeated consistently.
 
 ---
 
@@ -365,29 +318,27 @@ Watch the chatmode score the code and suggest specific improvements.
 | Metric | Your Result |
 |--------|-------------|
 | Existing agents explored | ___ / 5 |
-| Existing chatmodes explored | ___ / 2 |
 | New agents created | ___ / 2 |
-| New chatmode created | ___ / 1 |
 | Agent audit accuracy (accessibility) | High / Medium / Low |
-| Chatmode quality scoring useful? | Yes / No |
+| Files generated by full-stack agent | ___ files |
 
 ---
 
 ## Key Takeaway
 
-> **Custom agents and chatmodes turn specialized expertise into on-demand tools.** Instead of memorizing WCAG checklists, N+1 query patterns, or code quality rubrics, you codify them once in an agent and invoke them by name. Any team member can access expert-level reviews instantly.
+> **Custom agents turn specialized expertise into on-demand tools.** The accessibility auditor codifies a WCAG checklist so any dev can run an expert audit. The full-stack feature agent turns a one-sentence description into 8+ production-ready files. Codify it once, invoke by name, get consistent results every time.
 
 ### What Made This Work
 
 - **Agent anatomy**: YAML frontmatter (name, description, tools) + system prompt (expertise, workflow, output format)
-- **Chatmode anatomy**: YAML frontmatter (description) + behavioral instructions (how to respond)
-- **Checklists**: Structured audit criteria ensure comprehensive coverage
+- **Checklists**: Structured audit criteria ensure comprehensive, repeatable coverage
+- **"Read first" pattern**: The full-stack agent reads existing code to match your style — no generic boilerplate
 - **Output format templates**: Consistent, scannable results every time
-- **Tool access**: Agents that can read code, run commands, and edit files are more powerful than chat-only
+- **Tool access**: Agents that can read code, run commands, and edit files are dramatically more powerful than chat-only
 
 ---
 
-## Agent & Chatmode Summary — All Created in This Workshop
+## Agent Summary — All Created in This Workshop
 
 | Type | Name | Lab | File |
 |------|------|-----|------|
@@ -396,6 +347,5 @@ Watch the chatmode score the code and suggest specific improvements.
 | Agent | Security Reviewer | Lab 07 | `.github/agents/security-reviewer.agent.md` |
 | Agent | Doc Generator | Lab 08 | `.github/agents/doc-generator.agent.md` |
 | Agent | Accessibility Auditor | Lab 10 | `.github/agents/accessibility-auditor.agent.md` |
-| Agent | Performance Reviewer | Lab 10 | `.github/agents/performance-reviewer.agent.md` |
-| Chatmode | Code Quality Coach | Lab 10 | `.github/chatmodes/CodeQualityCoach.chatmode.md` |
+| Agent | Full-Stack Feature | Lab 10 | `.github/agents/full-stack-feature.agent.md` |
 | Skill | Frontend Component | Lab 09 | `.github/skills/frontend-component/SKILL.md` |
