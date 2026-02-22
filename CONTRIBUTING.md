@@ -162,9 +162,9 @@ Documentation improvements are always welcome:
 
 ### Database
 
-- Add migrations for schema changes in `api/sql/migrations/`
+- Add migrations for schema changes in `api/database/migrations/`
 - Never modify existing migration files - always create a new sequential file
-- Update seed data in `api/sql/seed/` if needed
+- Update seed data in `api/database/seed/` if needed
 - Test migrations with: `npm run db:migrate --workspace=api`
 
 ## 🧪 Testing Guidelines

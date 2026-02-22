@@ -41,8 +41,8 @@ Follow the existing patterns in the codebase:
 - [ ] **Repository**: `api/src/repositories/deliveryVehiclesRepo.ts` — CRUD + `findBySupplierId()` (follow `productsRepo.ts` pattern)
 - [ ] **Routes**: `api/src/routes/deliveryVehicle.ts` — Express handlers + full Swagger docs (follow `product.ts` routes)
 - [ ] **Register route**: Add to `api/src/index.ts` — `app.use('/api/delivery-vehicles', deliveryVehicleRoutes)`
-- [ ] **Migration**: `api/sql/migrations/003_add_delivery_vehicles.sql` — CREATE TABLE with FK to suppliers
-- [ ] **Seed data**: `api/sql/seed/005_delivery_vehicles.sql` — 4–5 realistic rows referencing existing supplier IDs (1–4)
+- [ ] **Migration**: `api/database/migrations/003_add_delivery_vehicles.sql` — CREATE TABLE with FK to suppliers
+- [ ] **Seed data**: `api/database/seed/005_delivery_vehicles.sql` — 4–5 realistic rows referencing existing supplier IDs (1–4)
 - [ ] **Unit tests**: `api/src/repositories/deliveryVehiclesRepo.test.ts` — All CRUD operations with mocks (follow `suppliersRepo.test.ts`)
 
 ### Constraints

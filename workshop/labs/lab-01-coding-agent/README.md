@@ -38,7 +38,7 @@ Open these 4 files and skim the structure:
 | [api/src/models/product.ts](../../../api/src/models/product.ts) | TypeScript interface + Swagger `@swagger` JSDoc |
 | [api/src/repositories/productsRepo.ts](../../../api/src/repositories/productsRepo.ts) | Repository class: `findAll`, `findById`, `create`, `update`, `delete`, `exists` |
 | [api/src/routes/product.ts](../../../api/src/routes/product.ts) | Express routes with Swagger docs — CRUD endpoints |
-| [api/sql/migrations/001_init.sql](../../../api/sql/migrations/001_init.sql) | SQL schema for all tables — see the `products` table |
+| [api/database/migrations/001_init.sql](../../../api/database/migrations/001_init.sql) | SQL schema for all tables — see the `products` table |
 
 **Key insight:** Every entity in this app follows the same pattern: **Model → Repository → Routes → Migration → Seed → Tests.** The codebase also has a Copilot Skill at `.github/skills/api-endpoint/SKILL.md` that teaches this pattern to Copilot.
 
@@ -95,8 +95,8 @@ Follow the existing patterns in the codebase:
 - [ ] **Repository**: `api/src/repositories/deliveryVehiclesRepo.ts` — CRUD + `findBySupplierId()` (follow `productsRepo.ts` pattern)
 - [ ] **Routes**: `api/src/routes/deliveryVehicle.ts` — Express handlers + full Swagger docs (follow `product.ts` routes)
 - [ ] **Register route**: Add to `api/src/index.ts` — `app.use('/api/delivery-vehicles', deliveryVehicleRoutes)`
-- [ ] **Migration**: `api/sql/migrations/003_add_delivery_vehicles.sql` — CREATE TABLE with FK to suppliers
-- [ ] **Seed data**: `api/sql/seed/005_delivery_vehicles.sql` — 4–5 realistic rows referencing existing supplier IDs (1–4)
+- [ ] **Migration**: `api/database/migrations/003_add_delivery_vehicles.sql` — CREATE TABLE with FK to suppliers
+- [ ] **Seed data**: `api/database/seed/005_delivery_vehicles.sql` — 4–5 realistic rows referencing existing supplier IDs (1–4)
 - [ ] **Unit tests**: `api/src/repositories/deliveryVehiclesRepo.test.ts` — All CRUD operations with mocks (follow `suppliersRepo.test.ts`)
 
 ### Constraints
@@ -114,6 +114,52 @@ Follow the existing patterns in the codebase:
 - [ ] Swagger docs visible at `/api-docs` with DeliveryVehicles tag
 - [ ] All CRUD operations work via REST client or curl
 ````
+
+<details>
+<summary>💡 <strong>Real-world tip:</strong> Use Copilot to generate the issue description instead of writing it manually</summary>
+
+In practice, you don't need to write detailed issue descriptions by hand. Let **Copilot Chat** analyze your existing codebase patterns and generate the issue body for you — saving significant time and ensuring consistency.
+
+#### How to do it
+
+1. Open **Copilot Chat** in VS Code
+2. Use this prompt:
+
+   ```text
+   Look at the existing entity patterns in api/src/models/, api/src/routes/,
+   api/src/repositories/, and api/database/migrations/.
+
+   Generate a GitHub issue description for adding a new "DeliveryVehicle"
+   entity that tracks vehicles used by suppliers for deliveries.
+   Fields: deliveryVehicleId (PK), supplierId (FK to suppliers), vehicleType,
+   licensePlate (unique), capacity, status (available/in-transit/maintenance),
+   lastInspectionDate (optional).
+
+   Include:
+   - A summary of the feature
+   - Data model table
+   - API endpoints table (full CRUD + filter by supplier)
+   - Implementation file checklist matching existing project conventions
+   - Constraints (unique, FK, check)
+   - Acceptance criteria
+   ```
+
+3. Copilot reads existing files (`product.ts`, `productsRepo.ts`, `supplier.ts`, etc.) and infers naming conventions, folder structure, SQL patterns, and route registration — producing a consistent issue body automatically.
+4. Review the generated Markdown, adjust if needed, and paste it into your GitHub issue.
+
+#### Bonus: Create the issue directly from the terminal
+
+```bash
+# Save the Copilot-generated description to a file, then create the issue
+gh issue create \
+  --title "Add DeliveryVehicle entity with full CRUD API" \
+  --body-file issue-body.md \
+  --label "enhancement"
+```
+
+> **Why this matters:** Writing detailed issue descriptions is a common source of developer toil. By letting Copilot generate them from your codebase context, you ensure accuracy, save time, and keep issues consistent — which is exactly what this workshop is about.
+
+</details>
 
 ### Step 2: Submit the issue
 

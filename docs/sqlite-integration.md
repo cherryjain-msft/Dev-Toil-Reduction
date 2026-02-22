@@ -132,7 +132,7 @@ const results = await repo.findByName('Tech');
 
 Database schema changes are managed through migration files:
 
-1. Create a new migration file: `api/sql/migrations/002_description.sql`
+1. Create a new migration file: `api/database/migrations/002_description.sql`
 2. Add your SQL statements
 3. Run migrations: `make db-migrate`<% if demo_options.backend == 'nodejs' %> (or `cd api && npm run db:migrate`)<% endif %>
 
@@ -140,7 +140,7 @@ Migration files are executed in order and tracked in the `migrations` table.
 
 ### Seed Data
 
-Sample data is provided through seed files in `api/sql/seed/`:
+Sample data is provided through seed files in `api/database/seed/`:
 
 - `001_suppliers.sql` - Supplier data
 - `002_headquarters.sql` - Headquarters data

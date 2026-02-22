@@ -352,12 +352,12 @@ See `references/database-conventions.md` for migration file conventions.
 
 ### Step 6: Create Seed Data
 
-**Always create seed data** for new entities in `api/sql/seed/{NNN}_{entity_names}.sql`.
+**Always create seed data** for new entities in `api/database/seed/{NNN}_{entity_names}.sql`.
 
 **Seed file naming convention:**
 - Use the next sequential number (e.g., `005_categories.sql`)
 - Use snake_case plural entity name
-- Place in `api/sql/seed/` directory
+- Place in `api/database/seed/` directory
 
 **Seed data best practices:**
 ```sql
@@ -460,8 +460,8 @@ When creating a new API endpoint, ensure you complete ALL steps:
 - [ ] **Repository** (`api/src/repositories/{entity}sRepo.ts`) - Data access with all CRUD methods
 - [ ] **Route** (`api/src/routes/{entity}.ts`) - Express handlers + Swagger docs
 - [ ] **Register** (`api/src/index.ts`) - Add route to Express app
-- [ ] **Migration** (`api/sql/migrations/{NNN}_{description}.sql`) - CREATE TABLE statement
-- [ ] **Seed Data** (`api/sql/seed/{NNN}_{entity_names}.sql`) - 3-5 realistic examples
+- [ ] **Migration** (`api/database/migrations/{NNN}_{description}.sql`) - CREATE TABLE statement
+- [ ] **Seed Data** (`api/database/seed/{NNN}_{entity_names}.sql`) - 3-5 realistic examples
 - [ ] **Unit Tests** (`api/src/repositories/{entity}sRepo.test.ts`) - All CRUD operations, edge cases, errors
 - [ ] **Route Tests** (`api/src/routes/{entity}.test.ts`) - Integration tests for HTTP endpoints
 
