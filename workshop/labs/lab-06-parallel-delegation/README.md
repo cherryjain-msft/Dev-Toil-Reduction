@@ -77,6 +77,8 @@ For each method:
 
 ### Step 2: Create Issue #2 — Architecture Diagrams & Docs
 
+> **Note:** This issue uses the `@doc-generator` custom agent defined in `.github/agents/doc-generator.agent.md`. The agent knows how to read source files and produce Mermaid diagrams — so the issue body can stay concise.
+
 **Title:** `Generate architecture diagrams and update documentation`
 
 **Body:**
@@ -84,47 +86,27 @@ For each method:
 ```markdown
 ## Summary
 
-Generate detailed Mermaid architecture diagrams and update `docs/architecture.md` with comprehensive visual documentation covering the API request lifecycle, deployment topology, and data flow through the system.
+@doc-generator — Generate Mermaid architecture diagrams and update `docs/architecture.md`.
 
-## Implementation
+## Diagrams to Add
 
-- Update `docs/architecture.md` with the new diagrams below
-- Read actual source files (`api/src/routes/*.ts`, `api/src/repositories/*.ts`, `api/src/index.ts`, `frontend/src/App.tsx`, `frontend/src/api/*.ts`) to ensure accuracy
-- All diagrams must use Mermaid syntax so they render natively on GitHub
-- Preserve existing content (ERD and Component Architecture diagrams) — append the new sections
+1. **API Request Lifecycle** (sequenceDiagram) — Client → Express → Route → Repository → SQLite → Response, including error path
+2. **Frontend-to-Backend Data Flow** (flowchart) — React component → API client → Express route → Repository → DB, using Products as example
+3. **Project Structure Overview** (flowchart) — Monorepo map of `api/`, `frontend/`, `docs/`, `infra/` with key subdirectories
+4. **Deployment Architecture** (flowchart) — Docker Compose (local) and Azure Container Apps (production), read from `docker-compose.yml` and `infra/container-apps.bicep`
 
-## Diagrams Required
+## Rules
 
-### 1. API Request Lifecycle (Sequence Diagram)
-
-Show the full request flow: Client → Express Router → Route Handler → Repository → SQLite → Response. Include error handling path.
-
-### 2. Frontend-to-Backend Data Flow (Flowchart)
-
-Show how a user action in a React component triggers an API call, flows through the backend, and returns data to the UI. Use the Products entity as the example.
-
-### 3. Project Structure Overview (Flowchart)
-
-Visual map of the monorepo structure showing `api/`, `frontend/`, `docs/`, `infra/` and their key subdirectories with brief descriptions of what each contains.
-
-### 4. Deployment Architecture (Flowchart)
-
-Show the containerized deployment: Docker Compose locally, Azure Container Apps in production. Read `docker-compose.yml` and `infra/container-apps.bicep` for accuracy.
-
-## Quality Requirements
-
-- Diagrams must render correctly in GitHub Markdown (use ```mermaid code blocks)
-- Use consistent styling and colors across diagrams
-- Add a table of contents at the top of the updated architecture doc listing all diagrams
-- Each diagram must have a brief text description explaining what it shows
+- Preserve existing ERD and Component Architecture diagrams — append new sections
+- Add a table of contents linking to all diagram sections
+- Each diagram gets a short text description above it
+- Read actual source files for accuracy — do not use placeholders
 
 ## Acceptance Criteria
 
 - [ ] `docs/architecture.md` contains at least 6 Mermaid diagrams (4 new + 2 existing)
-- [ ] All diagrams render correctly on GitHub (valid Mermaid syntax)
-- [ ] Diagrams reflect the actual codebase structure (not generic/placeholder content)
-- [ ] Existing ERD and Component Architecture diagrams are preserved
-- [ ] A table of contents links to each diagram section
+- [ ] All diagrams render correctly on GitHub
+- [ ] Diagrams reflect the actual codebase (not generic content)
 ```
 
 ### Step 3: Create Issue #3 — Custom 404 Page
