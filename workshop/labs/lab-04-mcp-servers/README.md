@@ -77,7 +77,21 @@ Labels: ["enhancement", "testing"]
 
 Verify the issue was created by checking your GitHub repo.
 
-### Step 6: Query Pull Requests
+### Step 6: Create an issue using a repo template
+
+This repo has an issue template for adding new API entities. Use it to create a real issue:
+
+```
+Using the GitHub MCP server, create a new issue using the 
+"New API Entity" issue template. Fill it in for a "Warehouse" entity 
+with these fields: name, address, city, state, capacity (max pallet slots), 
+currentUtilization (percentage), isActive (boolean), managedBy (text).
+Add labels: enhancement, copilot-coding-agent.
+```
+
+Verify the issue was created in your GitHub repo with the full template filled in.
+
+### Step 7: Query Pull Requests
 
 ```
 Using the GitHub MCP server, list the most recent 5 pull requests 
@@ -88,7 +102,7 @@ Using the GitHub MCP server, list the most recent 5 pull requests
 
 ## Part C — Playwright MCP Server (20 min)
 
-### Step 7: Start the app
+### Step 8: Start the app
 
 Make sure the app is running:
 
@@ -96,7 +110,7 @@ Make sure the app is running:
 make dev
 ```
 
-### Step 8: Run a visual check
+### Step 9: Run a visual check
 
 In Agent Mode chat, type:
 
@@ -109,7 +123,7 @@ Using the Playwright MCP server:
 
 Copilot will launch a browser, navigate to the app, and describe what it sees.
 
-### Step 9: Test a user flow
+### Step 10: Test a user flow
 
 ```
 Using the Playwright MCP server, test this user flow:
@@ -122,7 +136,7 @@ Using the Playwright MCP server, test this user flow:
 7. Report: Did the add-to-cart show a success indicator?
 ```
 
-### Step 10: Find a visual bug
+### Step 11: Find a visual bug
 
 ```
 Using the Playwright MCP server:
@@ -135,7 +149,7 @@ Using the Playwright MCP server:
 
 ## Part D — GitHub Remote MCP (Extended API) (10 min)
 
-### Step 11: Query GitHub Actions
+### Step 12: Query GitHub Actions
 
 The `github-remote` MCP server provides access to advanced GitHub features. Try:
 
@@ -144,14 +158,14 @@ Using the GitHub tools, list the most recent workflow runs
 for this repository. Show: Workflow Name, Status, Conclusion, Created date.
 ```
 
-### Step 12: Check code security
+### Step 13: Check code security
 
 ```
 Using the GitHub tools, check if there are any Dependabot alerts 
 or code scanning alerts for this repository. Summarize findings.
 ```
 
-### Step 13: Query repository details
+### Step 14: Query repository details
 
 ```
 Using the GitHub tools, get the repository details: 
@@ -163,7 +177,7 @@ and number of open issues vs closed issues.
 
 ## Part E — Create an MCP-Powered Agent (10 min)
 
-### Step 14: Create a project status agent
+### Step 15: Create a project status agent
 
 Create `.github/agents/project-status.agent.md`:
 
@@ -212,9 +226,9 @@ When asked for a status report, gather data from multiple sources and compile a 
 1. ...
 2. ...
 ```
-```
 
-### Step 15: Use the project status agent
+
+### Step 16: Use the project status agent
 
 In Copilot Chat, type:
 

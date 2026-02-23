@@ -240,18 +240,21 @@ Example:
 > 🔴 BLOCK: `analytics.ts:13` — SQL injection via string interpolation. Use parameterized query: `db.all('SELECT * FROM orders WHERE order_date BETWEEN ? AND ?', [startDate, endDate])`
 
 End with a summary: `X blocking / Y warnings / Z nits`
+
+create a summary in tabular format
 ```
 
 ### Step 11: Test the code review agent
 
 1. Open Copilot Chat → select **Agent** mode
-2. In the chat, type `@code-reviewer` and then:
+2. Select **@code-reviewer** agent from the participant dropdown
+3. Type the following prompt:
 
 ```
 Review the file api/src/routes/analytics.ts against our team standards.
 ```
 
-3. The agent will analyze the file and output a structured review with severity levels
+4. The agent will analyze the file and output a structured review with severity levels
 
 ### Step 12: Compare reviews
 

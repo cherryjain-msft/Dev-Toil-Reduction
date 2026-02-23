@@ -4,9 +4,9 @@
 |---|---|
 | **Toil** | Scaffolding components and boilerplate code |
 | **Feature** | Copilot Agent Mode (multi-file editing in VS Code) |
-| **Time** | 45–60 minutes |
+| **Time** | 20–30 minutes |
 | **Difficulty** | Beginner |
-| **Prerequisites** | VS Code with Copilot Chat, app running locally (`make dev`) |
+| **Prerequisites** | VS Code with Copilot Chat, app running locally  |
 
 ## Toil Scorecard
 
@@ -29,25 +29,40 @@ You will use **Agent Mode** in VS Code to build a complete "Order History" page 
 
 ### Step 1: Start the application
 
+```powershell
+# Install dependencies
+cd api; npm install; cd ..
+cd frontend; npm install; cd ..
+
+# Start API (Terminal 1)
+cd api; npm run dev
+
+# Start Frontend (Terminal 2)
+cd frontend; npm run dev
+```
+
+<details>
+<summary><strong>Using Make (macOS / Linux)</strong></summary>
+
 ```bash
 make install
 make dev
 ```
+
+</details>
 
 Verify:
 - API running at `http://localhost:3000/api-docs`
 - Frontend running at `http://localhost:5173`
 - Navigate to the Products page — the app should load with products visible
 
-### Step 2: Open Agent Mode
-
-1. Open **Copilot Chat** panel in VS Code (Ctrl+Shift+I / Cmd+Shift+I)
-2. At the top of the chat, click the mode dropdown and select **Agent**
-3. You should see the tools list (codebase, editFiles, runCommands, etc.)
-
 ---
 
 ## Part B — Build with a Prompt File (25 min)
+
+### Step 2: Open Agent Mode
+
+Open **Copilot Chat** (Ctrl+Shift+I) and select **Agent** from the mode dropdown.
 
 ### Step 3: Open the pre-built prompt file
 

@@ -46,124 +46,44 @@ Open these 4 files and skim the structure:
 
 ## Part B — Create the GitHub Issue (10 min)
 
-### Step 1: Copy the issue text below
+### Step 1: Create the issue using MCP
 
-Go to your GitHub repo → **Issues** → **New Issue**.
+Instead of manually copying issue descriptions, use the **GitHub MCP server** to create the issue directly from Copilot Chat.
 
-**Title:**
+1. Open **Copilot Chat** (Ctrl+Shift+I) → select **Agent** mode
+2. Type the following prompt:
+
 ```
-Add DeliveryVehicle entity with full CRUD API
+Using the GitHub MCP server, create a new issue using the 
+"New API Entity" issue template. Fill it in for a "DeliveryVehicle" 
+entity that tracks vehicles used by suppliers for deliveries.
+
+Fields:
+- deliveryVehicleId (integer, PK, auto)
+- supplierId (integer, FK to suppliers, required)
+- vehicleType (text, required — e.g. "Truck", "Van", "Drone")
+- licensePlate (text, required, unique)
+- capacity (number, required — max cargo weight in kg)
+- status (text, required — "available", "in-transit", "maintenance")
+- lastInspectionDate (text, optional — ISO 8601 date)
+
+Include an extra endpoint: GET /api/delivery-vehicles/supplier/:supplierId.
+Add constraints: UNIQUE on licensePlate, FK to suppliers with ON DELETE CASCADE, 
+CHECK on status. Assign the issue to Copilot.
 ```
 
-**Body** (copy the entire block below):
-
-````markdown
-## Summary
-
-Add a new `DeliveryVehicle` entity to the OctoCAT Supply Chain API. This entity tracks vehicles used by suppliers for deliveries.
-
-## Requirements
-
-### Data Model
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `deliveryVehicleId` | integer | PK, auto | Primary key |
-| `supplierId` | integer | FK, required | References `suppliers.supplier_id` |
-| `vehicleType` | string | required | e.g., "Truck", "Van", "Drone" |
-| `licensePlate` | string | required | Unique license plate |
-| `capacity` | number | required | Max cargo weight in kg |
-| `status` | string | required | "available", "in-transit", "maintenance" |
-| `lastInspectionDate` | string | optional | ISO 8601 date |
-
-### API Endpoints
-
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/api/delivery-vehicles` | List all vehicles |
-| `GET` | `/api/delivery-vehicles/:id` | Get vehicle by ID |
-| `GET` | `/api/delivery-vehicles/supplier/:supplierId` | Get vehicles by supplier |
-| `POST` | `/api/delivery-vehicles` | Create a vehicle |
-| `PUT` | `/api/delivery-vehicles/:id` | Update a vehicle |
-| `DELETE` | `/api/delivery-vehicles/:id` | Delete a vehicle |
-
-### Implementation Checklist
-
-Follow the existing patterns in the codebase:
-
-- [ ] **Model**: `api/src/models/deliveryVehicle.ts` — TypeScript interface + Swagger schema (follow `product.ts` pattern)
-- [ ] **Repository**: `api/src/repositories/deliveryVehiclesRepo.ts` — CRUD + `findBySupplierId()` (follow `productsRepo.ts` pattern)
-- [ ] **Routes**: `api/src/routes/deliveryVehicle.ts` — Express handlers + full Swagger docs (follow `product.ts` routes)
-- [ ] **Register route**: Add to `api/src/index.ts` — `app.use('/api/delivery-vehicles', deliveryVehicleRoutes)`
-- [ ] **Migration**: `api/database/migrations/003_add_delivery_vehicles.sql` — CREATE TABLE with FK to suppliers
-- [ ] **Seed data**: `api/database/seed/005_delivery_vehicles.sql` — 4–5 realistic rows referencing existing supplier IDs (1–4)
-- [ ] **Unit tests**: `api/src/repositories/deliveryVehiclesRepo.test.ts` — All CRUD operations with mocks (follow `suppliersRepo.test.ts`)
-
-### Constraints
-
-- `licensePlate` must be UNIQUE
-- FK `supplierId` → `suppliers(supplier_id)` with `ON DELETE CASCADE`
-- `status` CHECK constraint: must be one of 'available', 'in-transit', 'maintenance'
-- Use parameterized SQL (never string concatenation)
-- Follow existing error handling patterns (`NotFoundError`, `handleDatabaseError`)
-
-### Acceptance Criteria
-
-- [ ] `npm run build` passes with no errors
-- [ ] `npm test` passes including new tests
-- [ ] Swagger docs visible at `/api-docs` with DeliveryVehicles tag
-- [ ] All CRUD operations work via REST client or curl
-````
+3. Copilot will read the issue template, fill in all sections (data model, endpoints, checklist, constraints, acceptance criteria), and create the issue.
 
 <details>
-<summary>💡 <strong>Real-world tip:</strong> Use Copilot to generate the issue description instead of writing it manually</summary>
+<summary>💡 <strong>Alternative:</strong> Create the issue manually on GitHub.com</summary>
 
-In practice, you don't need to write detailed issue descriptions by hand. Let **Copilot Chat** analyze your existing codebase patterns and generate the issue body for you — saving significant time and ensuring consistency.
-
-#### How to do it
-
-1. Open **Copilot Chat** in VS Code
-2. Use this prompt:
-
-   ```text
-   Look at the existing entity patterns in api/src/models/, api/src/routes/,
-   api/src/repositories/, and api/database/migrations/.
-
-   Generate a GitHub issue description for adding a new "DeliveryVehicle"
-   entity that tracks vehicles used by suppliers for deliveries.
-   Fields: deliveryVehicleId (PK), supplierId (FK to suppliers), vehicleType,
-   licensePlate (unique), capacity, status (available/in-transit/maintenance),
-   lastInspectionDate (optional).
-
-   Include:
-   - A summary of the feature
-   - Data model table
-   - API endpoints table (full CRUD + filter by supplier)
-   - Implementation file checklist matching existing project conventions
-   - Constraints (unique, FK, check)
-   - Acceptance criteria
-   ```
-
-3. Copilot reads existing files (`product.ts`, `productsRepo.ts`, `supplier.ts`, etc.) and infers naming conventions, folder structure, SQL patterns, and route registration — producing a consistent issue body automatically.
-4. Review the generated Markdown, adjust if needed, and paste it into your GitHub issue.
-
-#### Bonus: Create the issue directly from the terminal
-
-```bash
-# Save the Copilot-generated description to a file, then create the issue
-gh issue create \
-  --title "Add DeliveryVehicle entity with full CRUD API" \
-  --body-file issue-body.md \
-  --label "enhancement"
-```
-
-> **Why this matters:** Writing detailed issue descriptions is a common source of developer toil. By letting Copilot generate them from your codebase context, you ensure accuracy, save time, and keep issues consistent — which is exactly what this workshop is about.
+If you prefer, go to your GitHub repo → **Issues** → **New Issue** → select the **"New API Entity"** template and fill it in for a `DeliveryVehicle` entity with the fields listed above.
 
 </details>
 
-### Step 2: Submit the issue
+### Step 2: Verify the issue
 
-Click **Submit new issue**. Note the issue number (e.g., `#1`).
+Open your GitHub repo → **Issues** and confirm the issue was created with the full template filled in. Note the issue number (e.g., `#1`).
 
 ---
 
@@ -193,7 +113,7 @@ On the issue page:
 
 ---
 
-## Part D — Review the PR (20 min)
+## Part D — Review the PR (15 min)
 
 ### Step 5: Open the PR
 
