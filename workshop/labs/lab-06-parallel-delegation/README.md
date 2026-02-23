@@ -29,12 +29,12 @@ You will create **3 GitHub issues simultaneously**, assign all of them to Copilo
 
 ### The Problem
 
-Your backlog has a mix of tasks — backend tests, frontend UI fixes, small features. Doing them one at a time means constant context switching. But these tasks are **independent** — perfect for parallel delegation.
+Your backlog has a mix of tasks — backend tests, documentation, frontend UI fixes. Doing them one at a time means constant context switching. But these tasks are **independent** — perfect for parallel delegation.
 
 | Task | Type | Status |
 |------|------|--------|
 | Unit tests for `productsRepo.ts` | Backend Testing | → Issue #1 |
-| Unit tests for `ordersRepo.ts` | Backend Testing | → Issue #2 |
+| Architecture diagrams & docs update | Documentation | → Issue #2 |
 | Custom 404 "Lost Cat" page | Frontend UI | → Issue #3 |
 
 ---
@@ -75,36 +75,56 @@ For each method:
 - [ ] Test file follows `suppliersRepo.test.ts` structure exactly
 ```
 
-### Step 2: Create Issue #2 — Orders Repo Tests
+### Step 2: Create Issue #2 — Architecture Diagrams & Docs
 
-**Title:** `Add unit tests for ordersRepo.ts`
+**Title:** `Generate architecture diagrams and update documentation`
 
 **Body:**
 
 ```markdown
 ## Summary
 
-Add comprehensive unit tests for `api/src/repositories/ordersRepo.ts`.
+Generate detailed Mermaid architecture diagrams and update `docs/architecture.md` with comprehensive visual documentation covering the API request lifecycle, deployment topology, and data flow through the system.
 
 ## Implementation
 
-- Create `api/src/repositories/ordersRepo.test.ts`
-- Follow the exact pattern in `api/src/repositories/suppliersRepo.test.ts`
-- Use mock database with `vi.fn()` — do NOT use real database
-- Test all methods available in the repository
+- Update `docs/architecture.md` with the new diagrams below
+- Read actual source files (`api/src/routes/*.ts`, `api/src/repositories/*.ts`, `api/src/index.ts`, `frontend/src/App.tsx`, `frontend/src/api/*.ts`) to ensure accuracy
+- All diagrams must use Mermaid syntax so they render natively on GitHub
+- Preserve existing content (ERD and Component Architecture diagrams) — append the new sections
 
-## Test Cases Required
+## Diagrams Required
 
-For each method:
-1. ✅ Happy path — valid input returns expected output
-2. ✅ Empty/not found — returns empty array or null
-3. ✅ Error handling — database errors are propagated via `handleDatabaseError`
+### 1. API Request Lifecycle (Sequence Diagram)
+
+Show the full request flow: Client → Express Router → Route Handler → Repository → SQLite → Response. Include error handling path.
+
+### 2. Frontend-to-Backend Data Flow (Flowchart)
+
+Show how a user action in a React component triggers an API call, flows through the backend, and returns data to the UI. Use the Products entity as the example.
+
+### 3. Project Structure Overview (Flowchart)
+
+Visual map of the monorepo structure showing `api/`, `frontend/`, `docs/`, `infra/` and their key subdirectories with brief descriptions of what each contains.
+
+### 4. Deployment Architecture (Flowchart)
+
+Show the containerized deployment: Docker Compose locally, Azure Container Apps in production. Read `docker-compose.yml` and `infra/container-apps.bicep` for accuracy.
+
+## Quality Requirements
+
+- Diagrams must render correctly in GitHub Markdown (use ```mermaid code blocks)
+- Use consistent styling and colors across diagrams
+- Add a table of contents at the top of the updated architecture doc listing all diagrams
+- Each diagram must have a brief text description explaining what it shows
 
 ## Acceptance Criteria
 
-- [ ] `npm test` passes with all new tests
-- [ ] No real database connections — all tests use mocks
-- [ ] Test file follows `suppliersRepo.test.ts` structure exactly
+- [ ] `docs/architecture.md` contains at least 6 Mermaid diagrams (4 new + 2 existing)
+- [ ] All diagrams render correctly on GitHub (valid Mermaid syntax)
+- [ ] Diagrams reflect the actual codebase structure (not generic/placeholder content)
+- [ ] Existing ERD and Component Architecture diagrams are preserved
+- [ ] A table of contents links to each diagram section
 ```
 
 ### Step 3: Create Issue #3 — Custom 404 Page
@@ -163,7 +183,7 @@ For **each** of the 3 issues:
 
 You should see 3 sessions running in parallel:
 - Session for productsRepo tests
-- Session for ordersRepo tests
+- Session for architecture diagrams & docs
 - Session for 404 page
 
 ---
@@ -184,10 +204,10 @@ While waiting, note how each session independently works on **completely differe
 | Session | What It Does |
 |---------|-------------|
 | productsRepo tests | Reads `suppliersRepo.test.ts` as pattern → creates test file → runs `npm test` |
-| ordersRepo tests | Same pattern, different repo → creates test file → runs `npm test` |
+| architecture diagrams | Reads source files across the codebase → generates Mermaid diagrams → updates `docs/architecture.md` |
 | 404 page | Reads existing components for style → creates `NotFound.tsx` → updates `App.tsx` routes → runs `npm run build` |
 
-**All 3 happen simultaneously** — backend and frontend, tests and features, all at once.
+**All 3 happen simultaneously** — backend tests, documentation, and frontend UI, all at once.
 
 ---
 
@@ -204,9 +224,13 @@ When the first PR appears:
    - Happy path + edge cases
 3. Check that tests actually test the right methods (`findBySupplierId`, `findByName` are Products-specific)
 
-### Step 9: Review PR #2 — Orders Repo Tests
+### Step 9: Review PR #2 — Architecture Diagrams 📐
 
-Same review as PR #1 — verify it follows `suppliersRepo.test.ts` structure for orders-specific methods.
+1. Open the PR and check the updated `docs/architecture.md`
+2. Verify all 4 new Mermaid diagrams are present (API lifecycle, data flow, project structure, deployment)
+3. Confirm the existing ERD and Component Architecture diagrams are preserved
+4. Preview the file on GitHub to ensure all diagrams render correctly
+5. Check that diagrams reflect actual code structure (not generic placeholders)
 
 ### Step 10: Review PR #3 — 404 Page 🐱
 
@@ -231,7 +255,8 @@ make test
 make build
 ```
 
-- All tests (original + 2 new test files) should pass
+- All tests (original + new test file) should pass
+- `docs/architecture.md` has 6 Mermaid diagrams that render on GitHub
 - Frontend builds with the new 404 page
 - Navigate to `http://localhost:5173/xyz` to see the 404 page live
 
@@ -245,7 +270,7 @@ make build
 | Parallel sessions running | ___ / 3 |
 | Time from assignment to all 3 PRs | ___ min |
 | PRs that passed on first try | ___ / 3 |
-| Total lines of code generated (tests + UI) | ___ |
+| Total lines generated (tests + docs + UI) | ___ |
 | Lines you wrote manually | 0 |
 
 ---
@@ -256,9 +281,9 @@ make build
 
 ### What Made This Work
 
-- **Mixed task types**: Backend tests + frontend UI — Copilot handles both in parallel
+- **Mixed task types**: Backend tests + documentation + frontend UI — Copilot handles all in parallel
 - **Independent tasks**: No dependencies between the 3 issues
-- **Clear reference patterns**: `suppliersRepo.test.ts` for tests, existing components for UI
+- **Clear reference patterns**: `suppliersRepo.test.ts` for tests, existing docs for diagrams, existing components for UI
 - **Well-structured issues**: Specific requirements = consistent output across all 3
 - **Agent HQ**: Dashboard to monitor all sessions without context switching
 
@@ -266,4 +291,4 @@ make build
 
 ## Bonus Challenge (Optional, 15 min)
 
-Create issues for additional untested repositories (`branchesRepo`, `headquartersRepo`, `deliveriesRepo`) and assign all to Copilot simultaneously. Can you get 5+ parallel sessions running?
+Create issues for additional untested repositories (`branchesRepo`, `headquartersRepo`, `deliveriesRepo`, `ordersRepo`) and assign all to Copilot simultaneously. Can you get 5+ parallel sessions running?
