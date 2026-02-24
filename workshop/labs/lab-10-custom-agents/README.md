@@ -21,7 +21,7 @@
 
 ## What You'll Do
 
-You will explore the 5 existing agents in this repo (including the TDD handoff chain), understand the anatomy of each, and then **build 2 new agents** — an Accessibility Auditor and a PR Review Pipeline that chains agents together via **handoffs**.
+You will explore the 5 existing agents in this repo (including the TDD handoff chain), understand the anatomy of each, **deep-dive into the TDD agent pipeline** to see how handoffs power a Red-Green-Refactor workflow, and then **build a PR Review Pipeline agent** that chains agents together via **handoffs**.
 
 ---
 
@@ -82,112 +82,73 @@ Watch the API Specialist agent:
 
 ---
 
-## Part B — Build an Accessibility Auditor Agent (15 min)
+## Part B — Deep-Dive: The TDD Agent Pipeline (15 min)
 
-### Step 4: Create the accessibility auditor
+In Part A you saw that three agents form a TDD chain: **TDD Planner → TDD Red → TDD Green**. Now you'll run the full pipeline end-to-end and see how **handoffs** let each specialist do one job well while context flows automatically from one agent to the next.
 
-Create `.github/agents/accessibility-auditor.agent.md`:
+### Step 4: Understand the TDD agent roles
 
-````markdown
----
-name: 'Accessibility Auditor'
-description: 'Audit React components for WCAG 2.1 AA compliance. Use to check accessibility of pages, forms, and interactive components.'
-tools: ['codebase', 'search', 'editFiles', 'problems']
----
+Open the three agent files side-by-side and note how each is deliberately constrained:
 
-# Accessibility Auditor Agent
+| Agent | File | What It Does | What It **Never** Does |
+|-------|------|-------------|------------------------|
+| TDD Planner | `.github/agents/tdd-planner.agent.md` | Produces plan with test specs, acceptance criteria, edge cases | Write any code or tests |
+| TDD Red | `.github/agents/tdd-red.agent.md` | Writes **failing** tests based on the plan | Write implementation code |
+| TDD Green | `.github/agents/tdd-green.agent.md` | Writes **minimal** implementation to make tests pass | Add un-tested features or refactor |
 
-You are a WCAG 2.1 AA accessibility expert for the OctoCAT Supply Chain Management System (React + Tailwind frontend).
+Each agent has `<stopping_rules>` that prevent it from doing the next agent's job. This enforces discipline — the same discipline a human TDD practitioner follows, but codified.
 
-## Audit Checklist
+### Step 5: Trace the handoff chain
 
-When auditing a component, check:
+Open `tdd-planner.agent.md` and look at the `handoffs:` block:
 
-### 1. Semantic HTML
-- [ ] Proper heading hierarchy (h1 → h2 → h3, no skips)
-- [ ] Lists use `<ul>/<ol>/<li>` (not styled divs)
-- [ ] Buttons use `<button>`, not `<div onClick>`
-- [ ] Links use `<a>` with `href`, not `<span onClick>`
-- [ ] Tables use `<table>/<thead>/<tbody>/<tr>/<th>/<td>`
-- [ ] Forms use `<form>`, inputs have `<label>`
-
-### 2. ARIA
-- [ ] Interactive elements have `aria-label` or visible text
-- [ ] Modals have `role="dialog"` and `aria-modal="true"`
-- [ ] Loading states use `aria-busy="true"` or `role="status"`
-- [ ] Error messages use `role="alert"`
-- [ ] Expandable sections use `aria-expanded`
-
-### 3. Keyboard Navigation
-- [ ] All interactive elements focusable via Tab
-- [ ] Modals trap focus
-- [ ] Escape key closes modals
-- [ ] Custom widgets have keyboard handlers (Enter, Space, Arrow keys)
-- [ ] Focus visible indicator (`:focus-visible` or `focus:ring`)
-
-### 4. Color & Contrast
-- [ ] Text contrast ratio ≥ 4.5:1 (normal) / 3:1 (large)
-- [ ] Non-text contrast ratio ≥ 3:1
-- [ ] Information not conveyed by color alone
-- [ ] Dark mode has sufficient contrast
-
-### 5. Images & Media
-- [ ] Images have `alt` text (or `alt=""` for decorative)
-- [ ] Icons have `aria-label` or `aria-hidden="true"`
-- [ ] SVGs have `role="img"` and `aria-label` or `<title>`
-
-## Output Format
-
-```
-🔍 ACCESSIBILITY AUDIT
-
-📄 Component: ComponentName
-📍 File: path/to/file.tsx
-
-━━ VIOLATIONS ━━━━━━━━━━━━━━
-
-🔴 CRITICAL (must fix):
-  Line {n}: {element} missing {attribute}
-  Fix: Add {attribute}="{value}"
-
-🟡 WARNING (should fix):
-  Line {n}: {description}
-  Suggestion: {fix}
-
-🟢 PASSING:
-  ✓ Heading hierarchy correct
-  ✓ Buttons use semantic elements
-  ✓ Focus indicators present
-
-━━ SUMMARY ━━━━━━━━━━━━━━━━
-Score: X/Y checks passed
-Level: WCAG 2.1 AA {Compliant / Needs Work / Non-Compliant}
+```yaml
+handoffs:
+  - label: Write Red Tests
+    agent: tdd-red
+    prompt: 'Implement the failing tests for this plan'
+    send: true          # ← auto-handoff: no user click needed
 ```
 
-## Auto-Fix Capability
+Then open `tdd-red.agent.md`:
 
-When asked to fix issues, apply minimal changes:
-- Add missing `aria-label` attributes
-- Replace `<div onClick>` with `<button>`
-- Add `role` attributes to dynamic regions
-- Add keyboard event handlers alongside click handlers
-- Add `alt` text to images
-````
-
-### Step 5: Test the accessibility auditor
-
-```
-@accessibility-auditor Audit the Products page component at 
-frontend/src/components/entity/product/Products.tsx.
-Report all WCAG 2.1 AA violations.
+```yaml
+handoffs:
+  - label: Write Green Implementation
+    agent: tdd-green
+    prompt: 'Implement the code to make these tests pass'
+    send: true          # ← auto-handoff again
 ```
 
-### Step 6: Fix the issues
+This creates a **linear pipeline**: Planner → Red → Green, where each agent automatically sends its output to the next. The user kicks off the pipeline once and the chain runs.
+
+### Step 6: Run the TDD pipeline
+
+In Copilot Chat, invoke the planner with a small feature:
 
 ```
-@accessibility-auditor Fix all critical and warning accessibility 
-issues you found in Products.tsx.
+@tdd-planner Plan a "getProductsBySupplier" method for the ProductsRepository.
+It should accept a supplierId and return all products for that supplier.
+Include edge cases: invalid supplierId, supplier with no products.
 ```
+
+Watch the pipeline unfold:
+1. **TDD Planner** researches the codebase, then produces a plan with test specs — no code
+2. It **auto-hands off** to **TDD Red** via `send: true`
+3. **TDD Red** writes failing tests that import the not-yet-existing method
+4. It runs the tests to confirm they fail (RED state)
+5. It **auto-hands off** to **TDD Green** via `send: true`
+6. **TDD Green** writes the minimal implementation to make all tests pass
+7. It runs the tests to confirm they pass (GREEN state)
+
+### Step 7: Inspect the results
+
+After the pipeline completes, review what was created:
+- A **plan document** in `docs/tdd-plans/` with acceptance criteria and test specs
+- A **test file** with well-structured, convention-matching tests
+- A **minimal implementation** that follows existing repository patterns
+
+Notice how each agent stayed in its lane — the planner didn't write code, the red agent didn't write implementation, and the green agent didn't add un-tested features.
 
 ---
 
@@ -195,9 +156,9 @@ issues you found in Products.tsx.
 
 ### Why handoffs, not skills?
 
-In Lab 09 you created **skills** — reusable pattern blueprints that Copilot follows when generating code. Skills are great for _"how to create X"_ recipes. But what about multi-step **workflows** where different specialists need to run _in sequence_? That's what **agent handoffs** solve — they let one agent's output flow into the next, creating a pipeline. The TDD chain you examined in Part A (Planner → Red → Green) is a handoff pipeline. Now you'll build your own.
+In Lab 09 you created **skills** — reusable pattern blueprints that Copilot follows when generating code. Skills are great for _"how to create X"_ recipes. But what about multi-step **workflows** where different specialists need to run _in sequence_? That's what **agent handoffs** solve — they let one agent's output flow into the next, creating a pipeline. The TDD chain you just ran in Part B (Planner → Red → Green) is a linear handoff pipeline. Now you'll build a **fan-out** pipeline where an orchestrator delegates to multiple independent specialists.
 
-### Step 7: Create the PR review pipeline agent
+### Step 8: Create the PR review pipeline agent
 
 This agent orchestrates a **multi-agent review pipeline**. When you ask it to review changes, it:
 1. Analyzes the changeset and produces a summary
@@ -298,7 +259,7 @@ Original request: {what the user asked for}
 ```
 ````
 
-### Step 8: Compare handoff styles
+### Step 9: Compare handoff styles
 
 Before testing, compare the two handoff patterns in this repo:
 
@@ -309,9 +270,9 @@ Before testing, compare the two handoff patterns in this repo:
 | **Agent role** | Each agent does real work (plans, writes tests, writes code) | Orchestrator only summarizes; specialists do the work |
 | **When to use** | Sequential steps where output feeds input | Independent reviews that can run in any order |
 
-Open `tdd-planner.agent.md` side-by-side with your new `pr-review-pipeline.agent.md` and note how the `handoffs:` YAML differs.
+Open `tdd-planner.agent.md` side-by-side with your new `pr-review-pipeline.agent.md` and note how the `handoffs:` YAML differs. You already saw the linear TDD chain in Part B — now compare it with the fan-out pattern here.
 
-### Step 9: Test the PR review pipeline (the wow moment)
+### Step 10: Test the PR review pipeline (the wow moment)
 
 Try this prompt:
 
@@ -335,7 +296,7 @@ Watch the pipeline:
 > for the new delivery tracking feature.
 > ```
 
-### Step 10: Reflect — Agents vs Skills vs Instructions
+### Step 11: Reflect — Agents vs Skills vs Instructions
 
 Now that you've built agents (Labs 03–10), skills (Lab 09), and instructions (Lab 05), compare when to use each:
 
@@ -343,7 +304,7 @@ Now that you've built agents (Labs 03–10), skills (Lab 09), and instructions (
 |-------|-------------|---------|-------------|
 | **Instructions** | Passive rules applied to matching files | "Use parameterized SQL in all routes" | Enforce standards automatically |
 | **Skills** | Reusable code-generation blueprints | "Create an API endpoint following our patterns" | Consistent code generation |
-| **Agents** | Autonomous specialists with workflows | "Audit this component for WCAG compliance" | Complex multi-step workflows |
+| **Agents** | Autonomous specialists with workflows | "Plan tests, write failing tests, then implement" | Complex multi-step workflows |
 | **Agent Handoffs** | Orchestrate multiple agents in sequence | "Run code review → security scan → doc update" | Multi-specialist pipelines |
 
 ---
@@ -353,23 +314,23 @@ Now that you've built agents (Labs 03–10), skills (Lab 09), and instructions (
 | Metric | Your Result |
 |--------|-------------|
 | Existing agents explored | ___ / 5 |
-| New agents created | ___ / 2 |
-| Agent audit accuracy (accessibility) | High / Medium / Low |
+| TDD pipeline completed end-to-end | Yes / No |
+| New agents created (PR Review Pipeline) | ___ / 1 |
 | Handoff chain tested | ___ agents in pipeline |
 
 ---
 
 ## Key Takeaway
 
-> **Custom agents turn specialized expertise into on-demand tools. Agent handoffs make them composable.** The accessibility auditor codifies a WCAG checklist so any dev can run an expert audit. The PR review pipeline chains three specialist agents into a single workflow — each does one thing well, and the orchestrator ties them together. Codify it once, invoke by name, get consistent results every time.
+> **Custom agents turn specialized expertise into on-demand tools. Agent handoffs make them composable.** The TDD pipeline codifies the Red-Green-Refactor discipline into three constrained agents that automatically hand off to each other — enforcing a workflow that even experienced developers sometimes skip. The PR review pipeline chains three specialist agents into a single workflow — each does one thing well, and the orchestrator ties them together. Codify it once, invoke by name, get consistent results every time.
 
 ### What Made This Work
 
 - **Agent anatomy**: YAML frontmatter (name, description, tools, handoffs) + system prompt (expertise, workflow, output format)
-- **Checklists**: Structured audit criteria ensure comprehensive, repeatable coverage
+- **Stopping rules**: Each TDD agent has explicit constraints preventing it from doing the next agent's job — this enforces discipline
 - **Handoffs**: The `handoffs:` block lets agents compose — an orchestrator delegates to specialists without embedding their logic
-- **`send: true` vs manual**: Auto-handoffs create seamless pipelines; manual handoffs give users control over which specialists to engage
-- **Output format templates**: Consistent, scannable results every time
+- **`send: true` vs manual**: Auto-handoffs create seamless pipelines (TDD chain); manual handoffs give users control (PR review fan-out)
+- **Linear vs fan-out**: TDD uses a linear pipeline (A → B → C); PR review uses fan-out (A → B, A → C, A → D)
 - **Tool access**: Agents that can read code, run commands, and edit files are dramatically more powerful than chat-only
 - **Agents vs Skills**: Skills are code-generation blueprints; agents are autonomous workflow specialists. Handoffs are the unique power of agents that skills cannot provide
 
@@ -383,6 +344,5 @@ Now that you've built agents (Labs 03–10), skills (Lab 09), and instructions (
 | Agent | Project Status | Lab 04 | `.github/agents/project-status.agent.md` |
 | Agent | Security Reviewer | Lab 07 | `.github/agents/security-reviewer.agent.md` |
 | Agent | Doc Generator | Lab 08 | `.github/agents/doc-generator.agent.md` |
-| Agent | Accessibility Auditor | Lab 10 | `.github/agents/accessibility-auditor.agent.md` |
 | Agent | PR Review Pipeline | Lab 10 | `.github/agents/pr-review-pipeline.agent.md` |
 | Skill | Frontend Component | Lab 09 | `.github/skills/frontend-component/SKILL.md` |
