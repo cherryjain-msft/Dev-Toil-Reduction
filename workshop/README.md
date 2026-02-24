@@ -23,7 +23,7 @@ A hands-on workshop where enterprise developers tackle real developer toils usin
 |---------|-----------------|
 | Copilot Coding Agent | Org → Copilot → Policies → Coding Agent: **Enabled** |
 | Copilot Code Review | Org → Copilot → Policies → Code Review: **Enabled** |
-| GitHub Advanced Security | Repo → Settings → Security → Code scanning: **Enabled** |
+| GitHub Advanced Security | Repo → Settings → Security → Code scanning: **Enabled** *(optional — only required for [Lab 07](labs/lab-07-security-autofix/README.md))* |
 
 ---
 
@@ -164,4 +164,4 @@ By the end of the workshop, you'll have created these reusable assets:
 | Copilot not responding | Check Copilot extension is signed in and enabled |
 | MCP servers not loading | Restart VS Code, check `.vscode/mcp.json` config |
 | Coding Agent not available | Verify org policy enables Coding Agent |
-| CodeQL not running | Enable GitHub Advanced Security in repo settings |
+| CodeQL not running | Enable GitHub Advanced Security in repo settings *(only needed for Lab 07)* |

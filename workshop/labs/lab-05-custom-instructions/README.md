@@ -199,64 +199,9 @@ The suggestion should follow your Conventional Commits format.
 
 ---
 
-## Part D — Create an AGENTS.md File (10 min)
+## Part D — Verify Instructions Work Together (5 min)
 
-### Step 8: Create root AGENTS.md
-
-`AGENTS.md` at the repo root is special — it tells Copilot about the entire repo structure. Create `AGENTS.md`:
-
-```markdown
-# AGENTS.md — OctoCAT Supply Chain Workshop
-
-## Repository Structure
-
-This is a TypeScript monorepo with two main applications and a workshop layer:
-
-### Applications
-- `api/` — Express.js REST API with SQLite (port 3000)
-- `frontend/` — React 18 + Vite + Tailwind UI (port 5173)
-
-### Workshop
-- `workshop/` — Hands-on labs for GitHub Copilot features
-- `workshop/labs/` — Individual lab directories with README instructions
-- `workshop/issues/` — Pre-crafted GitHub issue templates
-
-### Copilot Configuration
-- `.github/copilot-instructions.md` — Repo-wide AI standards
-- `.github/instructions/` — Path-scoped instructions (api, frontend, database, testing)
-- `.github/agents/` — Custom Copilot agents (API Specialist, TDD, Code Reviewer)
-- `.github/skills/` — Copilot Skills (api-endpoint pattern)
-- `.github/prompts/` — Reusable prompt files
-
-### Key Patterns
-- **Entity pattern**: Model → Repository → Route → Migration → Seed → Tests
-- **Error handling**: Custom errors (NotFoundError, ValidationError) → error middleware
-- **Data access**: Repository pattern with factory/singleton
-- **SQL**: Always parameterized — never string concatenation
-- **Testing**: Vitest with mock DB, `@testing-library/react` for components
-
-### Commands
-- `make install` — Install all dependencies
-- `make dev` — Start both API and frontend in development mode
-- `make test` — Run all tests
-- `make build` — Build both projects
-```
-
-### Step 9: Test AGENTS.md awareness
-
-In a new Copilot Chat session, type:
-
-```
-What is the architecture of this project? What testing patterns are used?
-```
-
-Copilot should reference the `AGENTS.md` content in its answer.
-
----
-
-## Part E — Verify Instructions Work Together (5 min)
-
-### Step 10: Generate code that triggers multiple instructions
+### Step 8: Generate code that triggers multiple instructions
 
 In Agent Mode, type:
 
@@ -273,7 +218,6 @@ Add a "categories" feature to the API:
 - ✅ Repo-wide: No `any`, proper error handling, minimal diffs
 - ✅ API-scoped: Parameterized SQL, Swagger, thin controllers, repository pattern
 - ✅ Testing-scoped: `describe`/`it` structure, mock DB, happy + error paths
-- ✅ AGENTS.md: Follows the entity pattern, correct file locations
 
 ---
 
@@ -285,7 +229,6 @@ Add a "categories" feature to the API:
 | New instruction files created | ___ |
 | Did generated code follow instructions? | Yes / Partially / No |
 | Standards violations in generated code | ___ |
-| AGENTS.md created? | Yes / No |
 
 ---
 
@@ -297,6 +240,5 @@ Add a "categories" feature to the API:
 
 - **Instruction hierarchy**: Repo-wide → path-scoped → file-specific
 - **`applyTo` globs**: Instructions activate only for matching files
-- **AGENTS.md**: Repo-level map for Copilot's understanding
 - **Existing patterns**: Instructions reference real examples in the codebase
 - **Composability**: Multiple instructions combine for comprehensive coverage
