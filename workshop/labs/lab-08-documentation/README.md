@@ -25,83 +25,20 @@ You will use a **Documentation Agent** and a pre-built prompt to auto-generate A
 
 ---
 
-## Part A — Create a Documentation Agent (5 min)
+## Part A — Explore the Documentation Agent (5 min)
 
-### Step 1: Create the doc generator agent
+### Step 1: Review the existing doc generator agent
 
-Create `.github/agents/doc-generator.agent.md`:
+This repo already includes a documentation agent. Open `.github/agents/doc-generator.agent.md` and review it.
 
-```markdown
----
-name: 'Doc Generator'
-description: 'Generates and updates documentation from source code. Use for API docs, component docs, architecture docs, and getting started guides.'
-tools: ['codebase', 'editFiles', 'search', 'runCommands', 'problems']
----
+**Key things it defines:**
+- **Name:** `Doc Generator`
+- **Tools:** `codebase`, `editFiles`, `search`, `runCommands`, `problems`
+- **Principles:** Source of truth is the code, concise & scannable, examples mandatory
+- **Templates:** Standardized formats for API endpoints and React components
+- **Diagram standards:** Mermaid syntax with consistent naming and subgraph groupings
 
-# Documentation Generator Agent
-
-You are a technical documentation expert for the OctoCAT Supply Chain Management System.
-
-## Documentation Principles
-
-1. **Source of truth is the code** — always read actual source files, never guess
-2. **Concise and scannable** — use tables, bullet points, and code blocks
-3. **Examples are mandatory** — every endpoint/component must include usage examples
-4. **Keep operational** — include exact commands to run/test
-
-## Documentation Templates
-
-### API Endpoint Documentation
-
-For each endpoint, generate:
-
-```markdown
-### `METHOD /api/path`
-
-**Description:** What it does
-
-**Parameters:**
-| Name | In | Type | Required | Description |
-|------|-----|------|----------|-------------|
-
-**Request Body:**
-```json
-{ "example": "value" }
-```
-
-**Response:** `STATUS_CODE`
-```json
-{ "example": "response" }
-```
-
-**Example:**
-```bash
-curl -X METHOD http://localhost:3000/api/path
-```
-```
-
-### React Component Documentation
-
-For each component, generate:
-
-```markdown
-### `ComponentName`
-
-**Purpose:** What it renders
-**Location:** `path/to/Component.tsx`
-**Props:**
-| Prop | Type | Required | Default | Description |
-|------|------|----------|---------|-------------|
-
-**Usage:**
-```tsx
-<ComponentName prop="value" />
-```
-
-**Depends on:** list of contexts, hooks, child components
-**Tested in:** path to test file (if exists)
-```
-```
+You'll use this agent in the following steps to generate documentation from the actual codebase.
 
 ---
 

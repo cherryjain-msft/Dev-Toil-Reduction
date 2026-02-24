@@ -460,8 +460,8 @@ Open `http://localhost:5173/suppliers` — the page should render.
 Open a **new chat session** and type:
 
 ```
-Create a "Warehouses" page component for the frontend that shows a list 
-of warehouses from an API. Add search and a detail modal.
+Create a "Shipments" page component for the frontend that shows a list 
+of shipments from an API. Add search and a detail modal.
 ```
 
 (Don't reference the skill.)
@@ -470,7 +470,7 @@ of warehouses from an API. Add search and a detail modal.
 
 | Aspect | With Skill | Without Skill |
 |--------|-----------|---------------|
-| File location? | Correct (`entity/warehouse/`) | May vary |
+| File location? | Correct (`entity/shipment/`) | May vary |
 | Dark mode? | ✅ All classes have `dark:` variant | Often missed |
 | React Query? | ✅ Always used | May use `useEffect` + `useState` |
 | Test structure? | ✅ Follows project patterns | Generic patterns |
