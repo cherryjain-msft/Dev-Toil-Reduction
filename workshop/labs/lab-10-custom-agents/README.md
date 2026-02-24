@@ -21,7 +21,7 @@
 
 ## What You'll Do
 
-You will explore the 5 existing agents in this repo, understand the anatomy of each, and then **build 2 new agents** — giving you a complete toolkit for your team's specialized workflows.
+You will explore the 5 existing agents in this repo (including the TDD handoff chain), understand the anatomy of each, and then **build 2 new agents** — an Accessibility Auditor and a PR Review Pipeline that chains agents together via **handoffs**.
 
 ---
 
@@ -48,6 +48,11 @@ Every `.agent.md` file has:
 name: 'Agent Name'              ← How to invoke: @agent-name
 description: 'What it does'     ← Shown in agent picker UI
 tools: ['tool1', 'tool2']       ← Optional: which tools the agent can use
+handoffs:                        ← Optional: chain to other agents
+  - label: 'Button text'
+    agent: other-agent
+    prompt: 'What to tell the next agent'
+    send: true                   ← Auto-handoff (no user click needed)
 ---
 
 # System Prompt Content         ← Instructions the agent follows
@@ -57,6 +62,8 @@ tools: ['tool1', 'tool2']       ← Optional: which tools the agent can use
 ## Output Format                ← How results are structured
 ## Best Practices               ← Rules and constraints
 ```
+
+> **Key concept — Handoffs**: The `handoffs` block lets one agent pass context to another agent when its job is done. This is what makes agents composable — each specialist does one thing well and the orchestrator ties them together. Open `tdd-planner.agent.md` and trace the chain: **TDD Planner → TDD Red → TDD Green**.
 
 ### Step 3: Test an existing agent
 
@@ -184,132 +191,160 @@ issues you found in Products.tsx.
 
 ---
 
-## Part C — Build a Full-Stack Feature Agent (15 min)
+## Part C — Build a PR Review Pipeline Agent (15 min)
 
-### Step 7: Create the full-stack feature agent
+### Why handoffs, not skills?
 
-This is the big one. A single prompt will generate an **entire feature** — migration, model, repository, routes, Swagger docs, React component, and tests — all following the repo's existing patterns.
+In Lab 09 you created **skills** — reusable pattern blueprints that Copilot follows when generating code. Skills are great for _"how to create X"_ recipes. But what about multi-step **workflows** where different specialists need to run _in sequence_? That's what **agent handoffs** solve — they let one agent's output flow into the next, creating a pipeline. The TDD chain you examined in Part A (Planner → Red → Green) is a handoff pipeline. Now you'll build your own.
 
-Create `.github/agents/full-stack-feature.agent.md`:
+### Step 7: Create the PR review pipeline agent
+
+This agent orchestrates a **multi-agent review pipeline**. When you ask it to review changes, it:
+1. Analyzes the changeset and produces a summary
+2. Hands off to the **Code Reviewer** (Lab 03) for quality review
+3. Hands off to the **Security Reviewer** (Lab 07) for vulnerability scanning
+4. Hands off to the **Doc Generator** (Lab 08) for documentation updates
+
+> **Prerequisite**: You should have created the Code Reviewer (Lab 03) and Security Reviewer (Lab 07) agents. The Doc Generator already exists in the repo. If you skipped those labs, create placeholder agents with just a `name` and `description` so the handoff targets exist.
+
+Create `.github/agents/pr-review-pipeline.agent.md`:
 
 ````markdown
 ---
-name: 'Full-Stack Feature'
-description: 'Generate an entire feature end-to-end from a single description. Creates SQL migration, TypeScript model, repository, Express routes, Swagger docs, React components, and test stubs — all following existing repo patterns.'
-tools: ['codebase', 'search', 'editFiles', 'runCommands', 'problems']
+name: 'PR Review Pipeline'
+description: 'Orchestrates a multi-agent review pipeline. Analyzes a changeset, then hands off to Code Reviewer, Security Reviewer, and Doc Generator agents in sequence.'
+tools: ['codebase', 'search', 'githubRepo', 'problems', 'runSubagent']
+handoffs:
+  - label: Code Quality Review
+    agent: code-reviewer
+    prompt: 'Review this changeset for code quality, patterns, and maintainability issues'
+    send: true
+  - label: Security Scan
+    agent: security-reviewer
+    prompt: 'Scan this changeset for security vulnerabilities, injection risks, and credential exposure'
+  - label: Update Documentation
+    agent: doc-generator
+    prompt: 'Check if this changeset requires documentation updates and generate them'
+  - label: Full Pipeline (all reviewers)
+    agent: code-reviewer
+    prompt: 'Review this changeset for quality, then hand off to security-reviewer for vulnerability scan, then to doc-generator for documentation updates'
+    send: true
 ---
 
-# Full-Stack Feature Agent
+# PR Review Pipeline Agent
 
-You are an expert full-stack developer for the OctoCAT Supply Chain Management System. Given a feature description, you generate every layer of the stack in one shot.
+You are a PR review orchestrator for the OctoCAT Supply Chain Management System. You analyze changesets and coordinate specialized reviewer agents.
 
-## Architecture You Follow
+## Your Role
+
+You are the **first stop** in a review pipeline. You do NOT perform detailed code review, security audit, or documentation generation yourself — you summarize and delegate to specialists.
+
+## Workflow
+
+### 1. Identify the Changeset
+- If the user specifies files, read them
+- If the user says "review recent changes", use `githubRepo` to identify modified files
+- If no specific target, ask the user which files or feature to review
+
+### 2. Produce a Changeset Summary
+
+Analyze the files and output:
 
 ```
-SQL Migration → TypeScript Model → Repository → Express Routes → Swagger Docs
-                                                                      ↕
-React Component ← API Client Hook ← Types ← Swagger Spec
+📋 CHANGESET SUMMARY
+
+📁 Files Changed: {count}
+   {list of files with change type: added / modified / deleted}
+
+🏗️ Layers Affected:
+   [ ] Database (migrations, seeds)
+   [ ] API (models, repositories, routes)
+   [ ] Frontend (components, hooks, types)
+   [ ] Infrastructure (Docker, CI/CD, config)
+   [ ] Documentation
+
+📝 What Changed:
+   {2-3 sentence summary of the feature or fix}
+
+⚠️  Risk Areas:
+   {Areas that need careful review — new SQL, auth changes, public endpoints, etc.}
 ```
 
-## Existing Patterns to Match
+### 3. Recommend Review Path
 
-**Before generating anything**, read these reference files to match the repo's style:
-- Model: `api/src/models/product.ts`
-- Repository: `api/src/repositories/productsRepo.ts`
-- Routes: `api/src/routes/product.ts`
-- Migration: `database/migrations/001_init.sql`
-- React component: `frontend/src/components/entity/product/Products.tsx`
-- API client: `frontend/src/api/`
+Based on the changeset, recommend which reviewers to engage:
+- **Code Reviewer** — always recommended for non-trivial changes
+- **Security Reviewer** — recommended when changes touch auth, SQL, user input, or API endpoints
+- **Doc Generator** — recommended when changes add new endpoints, features, or modify architecture
 
-## Generation Workflow
-
-When the user describes a feature, follow this exact sequence:
-
-### 1. Clarify & Plan
-- State assumptions about the entity and its relationships
-- List the files you will create or modify
-- Get confirmation before proceeding
-
-### 2. Database Layer
-- Create `database/migrations/NNN_{entity}.sql` with CREATE TABLE, indexes, constraints
-- Add seed data in `database/seed/NNN_{entity}.sql` (5-10 realistic rows)
-
-### 3. API Layer
-- Create `api/src/models/{entity}.ts` — TypeScript interface matching the schema
-- Create `api/src/repositories/{entity}Repo.ts` — CRUD methods using parameterized SQL
-- Create `api/src/routes/{entity}.ts` — Express routes (GET all, GET by ID, POST, PUT, DELETE)
-- Register routes in `api/src/index.ts`
-- Add Swagger documentation to `api/api-swagger.json`
-
-### 4. Frontend Layer
-- Create `frontend/src/components/entity/{entity}/{Entity}s.tsx` — list view with table
-- Create `frontend/src/components/entity/{entity}/{Entity}Detail.tsx` — detail/edit view
-- Add API client functions in `frontend/src/api/`
-- Add navigation link in `frontend/src/components/Navigation.tsx`
-
-### 5. Tests
-- Create `api/src/routes/{entity}.test.ts` — route tests with happy path + error cases
+Present the handoff options and let the user choose, or use "Full Pipeline" to run all three.
 
 ## Rules
-- Always use **parameterized SQL** (never string concatenation)
-- Always use the existing **custom error classes** (NotFoundError, ValidationError, ConflictError)
-- Always match **existing code style** — read reference files first
-- Always include **proper HTTP status codes** (201 for create, 404 for not found, 422 for validation)
-- Keep React components consistent with **existing Tailwind patterns**
-- Use **React Query** for data fetching (match existing hooks pattern)
+- **Never** perform detailed code review yourself — that's the Code Reviewer's job
+- **Never** audit for security vulnerabilities — that's the Security Reviewer's job
+- **Never** write documentation — that's the Doc Generator's job
+- **Always** provide context in your handoff so the next agent knows what to focus on
+- Keep your summary concise — the specialists will do the deep work
 
-## Output Format
+## Handoff Context Template
+
+When handing off, include this context for the receiving agent:
 
 ```
-🚀 FULL-STACK FEATURE: {Entity Name}
-
-📋 PLAN
-  Entity: {name}
-  Fields: {field list}
-  Relationships: {FK references}
-  Files to create: {count}
-
-📁 FILES GENERATED
-  ✅ database/migrations/NNN_{entity}.sql
-  ✅ database/seed/NNN_{entity}.sql
-  ✅ api/src/models/{entity}.ts
-  ✅ api/src/repositories/{entity}Repo.ts
-  ✅ api/src/routes/{entity}.ts
-  ✅ api/src/routes/{entity}.test.ts
-  ✅ frontend/src/components/entity/{entity}/{Entity}s.tsx
-  ✅ frontend/src/components/entity/{entity}/{Entity}Detail.tsx
-  ✅ api/api-swagger.json (updated)
-  ✅ api/src/index.ts (updated)
-
-🧪 NEXT STEPS
-  1. Run: npm run build --workspace=api
-  2. Run: npm test --workspace=api
-  3. Verify at: http://localhost:3001/api/{entity}
+Changeset: {files list}
+Summary: {what changed}
+Risk areas: {what to focus on}
+Original request: {what the user asked for}
 ```
 ````
 
-### Step 8: Test the full-stack feature agent (the wow moment)
+### Step 8: Compare handoff styles
 
-This is where it gets impressive. Try this single prompt:
+Before testing, compare the two handoff patterns in this repo:
+
+| | TDD Chain | PR Review Pipeline |
+|---|---|---|
+| **Pattern** | Linear pipeline (A → B → C) | Fan-out (A → B, A → C, A → D) |
+| **Auto-handoff** | Each step auto-sends to next (`send: true`) | First review auto-sends; others are manual |
+| **Agent role** | Each agent does real work (plans, writes tests, writes code) | Orchestrator only summarizes; specialists do the work |
+| **When to use** | Sequential steps where output feeds input | Independent reviews that can run in any order |
+
+Open `tdd-planner.agent.md` side-by-side with your new `pr-review-pipeline.agent.md` and note how the `handoffs:` YAML differs.
+
+### Step 9: Test the PR review pipeline (the wow moment)
+
+Try this prompt:
 
 ```
-@full-stack-feature Add a "Warehouse" entity to the supply chain system.
-Fields: warehouseId (PK), name, location, capacity (integer), 
-managerId (text), isActive (boolean), createdAt, updatedAt.
-It should belong to a Branch (foreign key to branches table).
+@pr-review-pipeline Review the files in api/src/routes/product.ts 
+and api/src/repositories/productsRepo.ts. 
+I recently added input validation to these endpoints.
 ```
 
-Watch the agent generate **8+ files** from a single sentence:
-- SQL migration with table, indexes, and foreign key
-- Seed data with realistic warehouse entries
-- TypeScript model interface
-- Repository with full CRUD
-- Express routes with error handling
-- Route tests
-- React list and detail components
-- Swagger documentation
+Watch the pipeline:
+1. The orchestrator reads the files and produces a concise **changeset summary**
+2. It identifies risk areas (input validation → security relevant)
+3. It recommends the Code Reviewer + Security Reviewer
+4. It **auto-hands off** to the Code Reviewer via `send: true`
+5. After code review, you can click **"Security Scan"** to hand off to the Security Reviewer
+6. Finally, click **"Update Documentation"** if the Swagger docs need updating
 
-> **Try another one!** Ask for a "Shipment" or "Inventory" entity and see the same pattern repeated consistently.
+> **Try the full pipeline!** Use this prompt and click "Full Pipeline (all reviewers)":
+> ```
+> @pr-review-pipeline Review all changes in api/src/routes/ 
+> for the new delivery tracking feature.
+> ```
+
+### Step 10: Reflect — Agents vs Skills vs Instructions
+
+Now that you've built agents (Labs 03–10), skills (Lab 09), and instructions (Lab 05), compare when to use each:
+
+| Layer | What It Does | Example | When to Use |
+|-------|-------------|---------|-------------|
+| **Instructions** | Passive rules applied to matching files | "Use parameterized SQL in all routes" | Enforce standards automatically |
+| **Skills** | Reusable code-generation blueprints | "Create an API endpoint following our patterns" | Consistent code generation |
+| **Agents** | Autonomous specialists with workflows | "Audit this component for WCAG compliance" | Complex multi-step workflows |
+| **Agent Handoffs** | Orchestrate multiple agents in sequence | "Run code review → security scan → doc update" | Multi-specialist pipelines |
 
 ---
 
@@ -320,21 +355,23 @@ Watch the agent generate **8+ files** from a single sentence:
 | Existing agents explored | ___ / 5 |
 | New agents created | ___ / 2 |
 | Agent audit accuracy (accessibility) | High / Medium / Low |
-| Files generated by full-stack agent | ___ files |
+| Handoff chain tested | ___ agents in pipeline |
 
 ---
 
 ## Key Takeaway
 
-> **Custom agents turn specialized expertise into on-demand tools.** The accessibility auditor codifies a WCAG checklist so any dev can run an expert audit. The full-stack feature agent turns a one-sentence description into 8+ production-ready files. Codify it once, invoke by name, get consistent results every time.
+> **Custom agents turn specialized expertise into on-demand tools. Agent handoffs make them composable.** The accessibility auditor codifies a WCAG checklist so any dev can run an expert audit. The PR review pipeline chains three specialist agents into a single workflow — each does one thing well, and the orchestrator ties them together. Codify it once, invoke by name, get consistent results every time.
 
 ### What Made This Work
 
-- **Agent anatomy**: YAML frontmatter (name, description, tools) + system prompt (expertise, workflow, output format)
+- **Agent anatomy**: YAML frontmatter (name, description, tools, handoffs) + system prompt (expertise, workflow, output format)
 - **Checklists**: Structured audit criteria ensure comprehensive, repeatable coverage
-- **"Read first" pattern**: The full-stack agent reads existing code to match your style — no generic boilerplate
+- **Handoffs**: The `handoffs:` block lets agents compose — an orchestrator delegates to specialists without embedding their logic
+- **`send: true` vs manual**: Auto-handoffs create seamless pipelines; manual handoffs give users control over which specialists to engage
 - **Output format templates**: Consistent, scannable results every time
 - **Tool access**: Agents that can read code, run commands, and edit files are dramatically more powerful than chat-only
+- **Agents vs Skills**: Skills are code-generation blueprints; agents are autonomous workflow specialists. Handoffs are the unique power of agents that skills cannot provide
 
 ---
 
@@ -347,5 +384,5 @@ Watch the agent generate **8+ files** from a single sentence:
 | Agent | Security Reviewer | Lab 07 | `.github/agents/security-reviewer.agent.md` |
 | Agent | Doc Generator | Lab 08 | `.github/agents/doc-generator.agent.md` |
 | Agent | Accessibility Auditor | Lab 10 | `.github/agents/accessibility-auditor.agent.md` |
-| Agent | Full-Stack Feature | Lab 10 | `.github/agents/full-stack-feature.agent.md` |
+| Agent | PR Review Pipeline | Lab 10 | `.github/agents/pr-review-pipeline.agent.md` |
 | Skill | Frontend Component | Lab 09 | `.github/skills/frontend-component/SKILL.md` |
