@@ -26,7 +26,7 @@ Workshop lab instructions live in the [`workshop/labs/`](./workshop/labs/) direc
 - **[lab-01-coding-agent](./workshop/labs/lab-01-coding-agent/README.md)** — Coding Agent: Zero to PR
 - **[lab-02-agent-mode](./workshop/labs/lab-02-agent-mode/README.md)** — Agent Mode: Feature Build
 - **[lab-03-code-review](./workshop/labs/lab-03-code-review/README.md)** — Code Review: AI First-Pass Review
-- *(and more — see [workshop/README.md](./workshop/README.md) for the full list)*
+- *(and more — see the [README](./README.md) for the full list)*
 
 When contributing to workshop labs:
 
@@ -238,7 +238,7 @@ All contributions go through a review process:
 ## 📚 Additional Resources
 
 - [Main README](./README.md) - Project overview and setup
-- [Workshop Labs](./workshop/README.md) - Complete workshop labs
+- [Workshop Labs](./README.md#labs) - Complete workshop labs
 - [Facilitator Guide](./workshop/FACILITATOR-GUIDE.md) - Workshop facilitation guide
 - [Architecture Documentation](./docs/architecture.md) - System design details
 - [Custom Instructions](./.github/copilot-instructions.md) - Copilot configuration for this repo
