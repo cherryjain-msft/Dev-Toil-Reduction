@@ -135,8 +135,8 @@ By the end of the workshop, you'll have created these reusable assets:
 | Project Status | Agent | Lab 04 |
 | Security Reviewer | Agent | Lab 07 |
 | Doc Generator | Agent | Lab 08 |
-| Accessibility Auditor | Agent | Lab 10 |
-| Full-Stack Feature | Agent | Lab 10 |
+| Codebase Navigator | Agent | Lab 10 |
+| PR Review Pipeline | Agent | Lab 10 |
 | Frontend Component | Skill | Lab 09 |
 
 ---
