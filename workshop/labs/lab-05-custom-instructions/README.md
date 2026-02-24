@@ -141,7 +141,7 @@ following the project's testing patterns.
 
 Create `.github/instructions/git-conventions.instructions.md`:
 
-```markdown
+````markdown
 ---
 description: "Git commit message and branch naming conventions for this project."
 applyTo: "**"
@@ -185,7 +185,7 @@ Examples:
 - `feat/delivery-vehicles`
 - `fix/cart-total-discount`
 - `test/orders-repo-coverage`
-```
+````
 
 ### Step 7: Test the git convention instruction
 

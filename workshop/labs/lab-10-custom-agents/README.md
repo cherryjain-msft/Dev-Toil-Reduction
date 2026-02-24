@@ -81,7 +81,7 @@ Watch the API Specialist agent:
 
 Create `.github/agents/accessibility-auditor.agent.md`:
 
-```markdown
+````markdown
 ---
 name: 'Accessibility Auditor'
 description: 'Audit React components for WCAG 2.1 AA compliance. Use to check accessibility of pages, forms, and interactive components.'
@@ -165,7 +165,7 @@ When asked to fix issues, apply minimal changes:
 - Add `role` attributes to dynamic regions
 - Add keyboard event handlers alongside click handlers
 - Add `alt` text to images
-```
+````
 
 ### Step 5: Test the accessibility auditor
 
@@ -192,7 +192,7 @@ This is the big one. A single prompt will generate an **entire feature** — mig
 
 Create `.github/agents/full-stack-feature.agent.md`:
 
-```markdown
+````markdown
 ---
 name: 'Full-Stack Feature'
 description: 'Generate an entire feature end-to-end from a single description. Creates SQL migration, TypeScript model, repository, Express routes, Swagger docs, React components, and test stubs — all following existing repo patterns.'
@@ -286,7 +286,7 @@ When the user describes a feature, follow this exact sequence:
   2. Run: npm test --workspace=api
   3. Verify at: http://localhost:3001/api/{entity}
 ```
-```
+````
 
 ### Step 8: Test the full-stack feature agent (the wow moment)
 
