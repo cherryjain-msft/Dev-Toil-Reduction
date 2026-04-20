@@ -1,12 +1,4 @@
 {
-  "inputs": [
-    {
-      "id": "github_token",
-      "type": "promptString",
-      "description": "GitHub Personal Access Token",
-      "password": true
-    }
-  ],
   "servers": {
     "playwright": {
       "command": "npx",
@@ -14,16 +6,6 @@
         "@playwright/mcp@latest",
         "--browser=msedge"
       ]
-    },
-    "github": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-github"
-      ],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github_token}"
-      }
     },
     "github-remote": {
       "type": "http",

@@ -220,7 +220,7 @@ This one is the fun one:
 1. Open the PR and check `NotFound.tsx`
 2. Verify it has a cat-themed message and a "Back to Home" button
 3. Check that `App.tsx` has a `<Route path="*">` catch-all
-4. Pull the branch and navigate to `http://localhost:5173/does-not-exist` — enjoy the 404 page!
+4. Pull the branch and navigate to `http://localhost:5137/does-not-exist` — enjoy the 404 page!
 
 ### Step 11: Merge all 3 PRs
 
@@ -232,7 +232,7 @@ Once reviewed:
 ### Step 12: Verify everything works together
 
 ```bash
-git pull origin main
+git pull origin master
 make test
 make build
 ```
@@ -240,7 +240,7 @@ make build
 - All tests (original + new test file) should pass
 - `docs/architecture.md` has 6 Mermaid diagrams that render on GitHub
 - Frontend builds with the new 404 page
-- Navigate to `http://localhost:5173/xyz` to see the 404 page live
+- Navigate to `http://localhost:5137/xyz` to see the 404 page live
 
 ---
 

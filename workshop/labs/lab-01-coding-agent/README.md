@@ -158,15 +158,16 @@ Once satisfied:
 ### Step 8: Pull and run
 
 ```bash
-git pull origin main
+git pull origin master
 cd api
-npm run db:seed:dev
 npm run dev
 ```
 
 ### Step 9: Test the new endpoints
 
 Open a new terminal and run:
+
+**Bash / macOS / Linux:**
 
 ```bash
 # List all vehicles
@@ -179,14 +180,34 @@ curl http://localhost:3000/api/delivery-vehicles/1
 curl -X POST http://localhost:3000/api/delivery-vehicles \
   -H "Content-Type: application/json" \
   -d '{"supplierId": 1, "vehicleType": "Drone", "licensePlate": "DRONE-001", "capacity": 5, "status": "available"}'
+```
 
+**PowerShell (Windows):**
+
+```powershell
+# List all vehicles
+Invoke-RestMethod http://localhost:3000/api/delivery-vehicles
+
+# Get vehicle by ID
+Invoke-RestMethod http://localhost:3000/api/delivery-vehicles/1
+
+# Create a new vehicle
+Invoke-RestMethod http://localhost:3000/api/delivery-vehicles `
+  -Method Post -ContentType "application/json" `
+  -Body '{"supplierId": 1, "vehicleType": "Drone", "licensePlate": "DRONE-001", "capacity": 5, "status": "available"}'
+```
+
+```
 # Check Swagger docs
 # Open http://localhost:3000/api-docs in browser — find "DeliveryVehicles" tag
 ```
 
 ### Step 10: Run the test suite
 
+In the same terminal from Step 9, run:
+
 ```bash
+cd api
 npm test
 ```
 

@@ -53,7 +53,7 @@ make dev
 
 Verify:
 - API running at `http://localhost:3000/api-docs`
-- Frontend running at `http://localhost:5173`
+- Frontend running at `http://localhost:5137`
 - Navigate to the Products page — the app should load with products visible
 
 ---
@@ -144,7 +144,7 @@ Agent Mode will run the build, read the errors, and fix them.
 
 ### Step 9: Check the frontend
 
-1. Open `http://localhost:5173` in your browser
+1. Open `http://localhost:5137` in your browser
 2. Click **Orders** in the navigation
 3. You should see a table of orders from the API
 4. Try the status filter dropdown

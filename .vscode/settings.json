@@ -1,2 +1,5 @@
 {
+    "makefile.configureOnOpen": false,
+    "git.ignoreLimitWarning": true,
+    "vitest.rootConfig": "api/vitest.config.ts"
 }

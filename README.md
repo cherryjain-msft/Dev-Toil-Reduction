@@ -10,74 +10,218 @@ A hands-on workshop where enterprise developers tackle real developer toils usin
 
 ## Prerequisites
 
-| Requirement | Details |
-|------------|---------|
+### Must-Have **Now**
+
+| Requirement | Check |
+|------------|-------|
 | **GitHub account** | With **Copilot Enterprise** or **Copilot Business** license |
 | **VS Code** | Latest version with [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) + [Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat) extensions |
-| **Node.js** | v24+ (`node --version`) |
-| **npm** | v10+ (`npm --version`) |
-| **Git** | Configured with your GitHub credentials |
-| **GitHub PAT** | Required for MCP server labs ([create one](https://github.com/settings/tokens)) |
+| **Git** | Configured with credentials |
 
-### Org Settings Required
+> ✅ **Have the above?** Skip to [Choose Your Path](#choose-your-path).
 
-| Feature | Setting Location |
-|---------|-----------------|
-| Copilot Coding Agent | Org → Copilot → Policies → Coding Agent: **Enabled** |
-| Copilot Code Review | Org → Copilot → Policies → Code Review: **Enabled** |
-| GitHub Advanced Security | Repo → Settings → Security → Code scanning: **Enabled** *(optional — only required for [Lab 07](workshop/labs/lab-07-security-autofix/README.md))* |
+### Optional — Required Only for Specific Labs
+
+| When needed | Requirement |
+|--------|-------------|
+| Before Labs 01, 03 | Org policy: Copilot Coding Agent & Code Review enabled |
+| Starting Labs 04–05 | GitHub PAT ([create one](https://github.com/settings/tokens)) |
+| If doing Lab 07 | GitHub Advanced Security enabled on repo |
+
+---
+## Choose Your Path
+
+| Path | Time | For | Recommendation |
+|------|------|-----|-----------------|
+| [**Codespaces**](#path-codespaces) | 5–10 min | In-person workshops, no setup | ⭐ **Start here** |
+| [**Docker Desktop**](#path-docker-desktop) | ~15 min | Already using Docker | ✅ Popular |
+| [**Podman**](#path-podman) | ~15 min | Enterprise (Docker restricted) | ✅ Supported |
+| [**Manual**](#path-manual) | ~20 min | Node.js v24+ already installed | Advanced |
 
 ---
 
-## Quick Start (5 min)
+<a id="path-codespaces"></a>
+### Option A — GitHub Codespaces
 
-### 1. Create Your Repo from the Template
+**5–10 min | Zero setup**
 
-1. Click the green **"Use this template"** button at the top of this repository (or go to **Code → Use this template → Create a new repository**).
-2. Select your **own account or org** as the owner.
-3. Give the repo a name (e.g., `copilot-workshop`) and set it to **Public** or **Private**.
-4. Click **Create repository**.
-5. Clone your new repo:
+1. On your fork: **Code** → **Codespaces** → **Create codespace on main**
+2. Wait for setup (auto-installs dependencies and builds)
+3. Authenticate (if prompted):
+   ```shell
+   gh auth login
+   copilot login
+   ```
+4. ➜ **[Jump to Run Your First App](#run-your-first-app)**
 
-```bash
-git clone https://github.com/<your-username>/<your-repo-name>.git
-cd <your-repo-name>
+<a id="path-docker-desktop"></a>
+### Option B — VS Code + Docker Desktop
+
+**~15 min | Has Docker**
+
+1. Install [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension
+2. Start Docker Desktop
+3. Clone and open:
+   ```bash
+   git clone https://github.com/<your-username>/<your-repo-name>.git
+   cd <your-repo-name>
+   code .
+   ```
+4. Click **"Reopen in Container"** when prompted (or `Ctrl+Shift+P` → search "Reopen in Container")
+5. Wait for build to finish
+6. Authenticate (if prompted):
+   ```shell
+   gh auth login
+   copilot login
+   ```
+7. ➜ **[Jump to Run Your First App](#run-your-first-app)**
+
+<a id="path-podman"></a>
+### Option C — VS Code + Podman
+
+**~15 min | Enterprise/Docker restricted**
+
+1. Install [Podman](https://podman.io/docs/installation) + [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension
+2. Start Podman:
+   - **macOS/Windows:** `podman machine init && podman machine start`
+   - **Linux:** `systemctl --user enable --now podman.socket`
+3. Configure VS Code: **Settings** → search `dev.containers.dockerPath` → set to `podman`
+4. Clone and open:
+   ```bash
+   git clone https://github.com/<your-username>/<your-repo-name>.git
+   cd <your-repo-name>
+   code .
+   ```
+5. Click **"Reopen in Container"** and wait for build
+6. Authenticate (if prompted):
+   ```shell
+   gh auth login
+   copilot login
+   ```
+7. ➜ **[Jump to Run Your First App](#run-your-first-app)**
+
+
+> **Podman troubleshooting:** If the container fails to start, verify the Podman socket path matches what VS Code expects. On Linux, set `"dev.containers.dockerSocketPath": "/run/user/1000/podman/podman.sock"` (adjust the UID if yours differs). On macOS/Windows, `podman machine start` handles this automatically.
+
+>**Note:** Your organizaiton may require you to download a CA certification into the Podman Vitual Maching, please visit: https://github.com/containers/podman/blob/main/docs/tutorials/podman-install-certificate-authority.md
+
+**↳ Podman on Windows won't start?** First enable Virtual Machine Platform in PowerShell (Admin):
+```powershell
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+# Then restart your machine
 ```
 
-> **Why a template?** Each attendee gets their own repo with full push access — required for Coding Agent PRs, Code Review, and GitHub Advanced Security labs.
+<a id="path-manual"></a>
+### Option D — Manual Setup
 
-### 2. Install
+If you prefer to install all tools directly on your machine:
 
+**Manual path prerequisites:**
+
+- Node.js **v24+** (includes npm)
+- Git
+- GNU Make (`make`) available in your shell
+- VS Code with GitHub Copilot + Copilot Chat extensions
+- GitHub account with Copilot Business or Enterprise
+
+1. Confirm prerequisites are installed (see [Prerequisites](#prerequisites) above)
+2. Clone your repository:
+   ```bash
+   git clone https://github.com/<your-username>/<your-repo-name>.git
+   cd <your-repo-name>
+   ```
+3. Install dependencies and build:
+   ```bash
+   make install
+   make build
+   ```
+   If `make` is not available on your machine, use:
+   ```bash
+   cd api && npm install && npm run build
+   cd ../frontend && npm install && npm run build
+   ```
+4. Authenticate:
+   ```shell
+   gh auth login
+   copilot login
+   ```
+5. Continue with [Run Your First App](#run-your-first-app)
+
+---
+## Run Your First App
+
+### 1. Create Your Repo
+
+1. **Fastest:** Click **Fork** and fork this repo to your account (default name is fine)
+2. **If forking is restricted:** click **"Use this template"** to create a new repo
+3. Keep the default repo name or choose your own
+
+> Each of you gets a personal repo for doing Coding Agent labs and GitHub integration exercises.
+
+### 2. Start the Services
+
+Your environment is already set up and dependencies are installed. Open **two terminals**:
+
+**Terminal 1 — API:**
 ```bash
-cd api && npm install && cd ..
-cd frontend && npm install && cd ..
-```
-
-### 3. Run
-
-Open two terminals:
-
-```bash
-# Terminal 1 — API
 cd api
 npm run dev
 ```
+Look for: `Server is running on port 3000`
 
+**Terminal 2 — Frontend:**
 ```bash
-# Terminal 2 — Frontend
 cd frontend
 npm run dev
 ```
+Look for: `Local: http://localhost:5137/`
 
-### 4. Verify
+### 3. ✅ Success Check
 
-| Service | URL | What you should see |
-|---------|-----|-------------------|
-| API | http://localhost:3000/api-docs | Swagger UI |
-| Frontend | http://localhost:5173 | React app with products, orders, etc. |
+Open these URLs (or click port links in VS Code):
+
+| What | URL | Expect |
+|------|-----|--------|
+| **API Docs** | http://localhost:3000/api-docs/ | Swagger UI showing endpoints |
+| **Frontend** | http://localhost:5137 | React dashboard with products listed |
+
+**Both load with content?** → 🎉 Ready for the labs!
 
 ---
+## Troubleshooting Setup
 
+| Problem | Quick Fix |
+|---------|-----------|
+| Port already in use | `npx kill-port 3000 5137` |
+| Blank API docs page | Add trailing slash: `http://localhost:3000/api-docs/` |
+| Container stuck | VS Code → **Developer: Reload Window** |
+| Still stuck | **Dev Containers: Rebuild Container** |
+| Can't reach frontend | Check VS Code **Ports** panel for 5137 forwarding |
+
+> More help under [Troubleshooting](#troubleshooting).
+
+---
+## Quick Start (5 min)
+
+### 1. Create Your Repo (Fork First)
+
+1. **Recommended (fastest):** Click **Fork** and create a fork under your own account/org.
+2. **Fallback:** If your org blocks forks, use **Code → Use this template → Create a new repository**.
+3. Keep the default name or pick any name, then create the repo.
+
+> **Why fork first?** It is usually one click faster and still gives each attendee a personal repo with push access for Coding Agent PRs, Code Review, and GitHub Advanced Security labs.
+
+### 2. Set Up Your Environment
+
+Choose one of the options from [Choose Your Path](#choose-your-path) above:
+- **Codespaces** — Zero local install (recommended)
+- **Docker Desktop** — Standard Docker
+- **Podman** — Enterprise/restricted Docker environments
+- **Manual Setup** — Direct installation
+
+Once your environment is ready, the dependencies will be automatically installed and the project will be built.
+
+---
 ## The Application
 
 **OctoCAT Supply** is a supply chain management system built with a modern TypeScript stack. You'll use it throughout every lab.
@@ -196,12 +340,16 @@ By the end of the workshop, you'll have created these reusable assets:
 
 | Problem | Fix |
 |---------|-----|
-| Port 3000 / 5173 in use | `npx kill-port 3000 5173` |
+| Port 3000 / 5137 in use | `npx kill-port 3000 5137` |
 | npm install fails | Delete `node_modules` in `api/` and `frontend/`, re-run install |
 | Copilot not responding | Check the Copilot extension is signed in and enabled |
 | MCP servers not loading | Restart VS Code, check `.vscode/mcp.json` config |
 | Coding Agent not available | Verify org policy enables Coding Agent |
 | CodeQL not running | Enable GitHub Advanced Security in repo settings *(only needed for Lab 07)* |
+| **Podman: Virtual Machine Platform not enabled** (Windows) | Run in **PowerShell as Administrator**: `dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart` then restart your machine |
+| **Podman: Machine fails to start** (Windows/macOS) | Verify machine is initialized: `podman machine init` then `podman machine start` |
+| **Podman: Socket not found** (Linux) | Enable the Podman socket: `systemctl --user enable --now podman.socket` |
+| **Dev Container fails with Podman** | Verify VS Code setting: `"dev.containers.dockerPath": "podman"`. On Linux, also set: `"dev.containers.dockerSocketPath": "/run/user/1000/podman/podman.sock"` (adjust UID: `echo $UID`) |
 
 ---
 

@@ -62,4 +62,4 @@ Build a complete **Order History** page with the following:
 After implementation:
 1. Run `cd frontend && npm run build` — must pass
 2. Run `cd frontend && npm test` — must pass
-3. Open `http://localhost:5173/orders` — page should display orders
+3. Open `http://localhost:5137/orders` — page should display orders

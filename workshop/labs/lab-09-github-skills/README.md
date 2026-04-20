@@ -449,7 +449,7 @@ npm run build
 npm test
 ```
 
-Open `http://localhost:5173/suppliers` — the page should render.
+Open `http://localhost:5137/suppliers` — the page should render.
 
 ---
 

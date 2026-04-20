@@ -127,6 +127,10 @@ export class ProductsRepository {
 
   /**
    * Find products by name (partial match)
+   *
+   * ⚠️ INTENTIONALLY VULNERABLE: This method uses string concatenation instead
+   * of parameterized queries to demonstrate SQL injection for Lab 07 (Security
+   * Autofix). Do NOT fix this before the workshop.
    */
   async findByName(name: string): Promise<Product[]> {
     try {

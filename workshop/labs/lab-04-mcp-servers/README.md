@@ -34,8 +34,7 @@ Open `.vscode/mcp.json` in your editor. This repo already has 4 MCP servers conf
 | Server | What It Provides | How It Runs |
 |--------|-----------------|-------------|
 | `playwright` | Browser automation, E2E testing | `npx @playwright/mcp@latest` |
-| `github` | GitHub API (issues, PRs, repos) | `npx @modelcontextprotocol/server-github` |
-| `github-remote` | Extended GitHub API (actions, security, copilot) | HTTP endpoint |
+| `github-remote` | GitHub API (issues, PRs, repos, actions, security, copilot) | HTTP endpoint (Copilot auth) |
 | `Azure MCP Server` | Azure resource management | `npx @azure/mcp@latest` |
 
 ### Step 2: Verify MCP servers are loaded
@@ -51,16 +50,16 @@ Open `.vscode/mcp.json` in your editor. This repo already has 4 MCP servers conf
 
 ## Part B — GitHub MCP Server (15 min)
 
-### Step 3: Verify GitHub MCP is running
+### Step 3: Verify GitHub MCP is available
 
-The GitHub MCP server runs via npx (configured in `.vscode/mcp.json`). It will prompt for your GitHub PAT on first use.
+The `github-remote` MCP server connects to GitHub via your existing Copilot authentication — no PAT required.
 
 ### Step 4: Query GitHub Issues from Chat
 
 In Agent Mode chat, type:
 
 ```
-Using the GitHub MCP server, list the open issues in this repository. 
+Using the GitHub tools, list the open issues in this repository. 
 Show them in a table with: Issue #, Title, Labels, Assignee.
 ```
 
@@ -69,7 +68,7 @@ Copilot will use the GitHub MCP to fetch live issue data without you opening a b
 ### Step 5: Create an issue from Chat
 
 ```
-Using the GitHub MCP server, create a new issue:
+Using the GitHub tools, create a new issue:
 Title: "Add unit tests for ordersRepo.ts"
 Body: "The orders repository at api/src/repositories/ordersRepo.ts has no unit tests. Add comprehensive tests following the pattern in suppliersRepo.test.ts."
 Labels: ["enhancement", "testing"]
@@ -82,7 +81,7 @@ Verify the issue was created by checking your GitHub repo.
 This repo has an issue template for adding new API entities. Use it to create a real issue:
 
 ```
-Using the GitHub MCP server, create a new issue using the 
+Using the GitHub tools, create a new issue using the 
 "New API Entity" issue template. Fill it in for a "Warehouse" entity 
 with these fields: name, address, city, state, capacity (max pallet slots), 
 currentUtilization (percentage), isActive (boolean), managedBy (text).
@@ -94,7 +93,7 @@ Verify the issue was created in your GitHub repo with the full template filled i
 ### Step 7: Query Pull Requests
 
 ```
-Using the GitHub MCP server, list the most recent 5 pull requests 
+Using the GitHub tools, list the most recent 5 pull requests 
 (open or closed). Show: PR #, Title, Status, Author.
 ```
 
@@ -116,7 +115,7 @@ In Agent Mode chat, type:
 
 ```
 Using the Playwright MCP server:
-1. Navigate to http://localhost:5173
+1. Navigate to http://localhost:5137
 2. Take a screenshot of the homepage
 3. Tell me what you see — list all navigation links and main content areas
 ```
@@ -127,7 +126,7 @@ Copilot will launch a browser, navigate to the app, and describe what it sees.
 
 ```
 Using the Playwright MCP server, test this user flow:
-1. Navigate to http://localhost:5173
+1. Navigate to http://localhost:5137
 2. Click on "Products" in the navigation
 3. Wait for products to load
 4. Take a screenshot
@@ -140,7 +139,7 @@ Using the Playwright MCP server, test this user flow:
 
 ```
 Using the Playwright MCP server:
-1. Navigate to http://localhost:5173/products
+1. Navigate to http://localhost:5137/products
 2. Take a screenshot in a narrow viewport (width: 375px, mobile)
 3. Is the page responsive? Are there any layout issues on mobile?
 ```
@@ -185,7 +184,7 @@ Create `.github/agents/project-status.agent.md`:
 ---
 name: 'Project Status'
 description: 'Get a live project status report using MCP servers to query GitHub and the running application.'
-tools: ['github', 'github-remote', 'playwright']
+tools: ['github-remote', 'playwright']
 ---
 
 # Project Status Agent
@@ -196,8 +195,8 @@ When asked for a status report, gather data from multiple sources and compile a 
 
 ## Data Sources
 
-1. **GitHub Issues** (via github MCP): Count open issues by label, list blockers
-2. **Pull Requests** (via github MCP): Open PRs, review status, staleness
+1. **GitHub Issues** (via github-remote MCP): Count open issues by label, list blockers
+2. **Pull Requests** (via github-remote MCP): Open PRs, review status, staleness
 3. **CI/CD** (via github-remote MCP): Recent workflow runs, pass/fail rate
 4. **Security** (via github-remote MCP): Open Dependabot alerts, code scanning alerts
 5. **App Health** (via Playwright MCP): Navigate to the running app, verify it loads
@@ -234,7 +233,7 @@ In Copilot Chat, type:
 
 ```
 @project-status Give me a full project status report. 
-The app should be running at http://localhost:5173.
+The app should be running at http://localhost:5137.
 ```
 
 Watch it query multiple MCP servers and compile a comprehensive report.
@@ -245,7 +244,7 @@ Watch it query multiple MCP servers and compile a comprehensive report.
 
 | Metric | Your Result |
 |--------|-------------|
-| MCP servers used successfully | ___ / 4 |
+| MCP servers used successfully | ___ / 3 |
 | GitHub queries without leaving VS Code | ___ |
 | Playwright tests run from chat | ___ |
 | Context switches to browser | ___ |
@@ -259,7 +258,7 @@ Watch it query multiple MCP servers and compile a comprehensive report.
 
 ### What Made This Work
 
-- **Pre-configured MCP** (`.vscode/mcp.json`): All 4 servers ready to use
+- **Pre-configured MCP** (`.vscode/mcp.json`): All 3 servers ready to use
 - **Agent mode + tools**: Copilot can call MCP servers as tools
 - **Custom agent**: Composing multiple MCP sources into a repeatable report
 - **Zero setup for users**: MCP servers are defined in the repo, not per-developer
